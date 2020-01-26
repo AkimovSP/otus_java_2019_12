@@ -1,3 +1,3 @@
 #Sergey Akimov
 #HW03
-# otus_java_2019_12
+# otusjava_2019_12
