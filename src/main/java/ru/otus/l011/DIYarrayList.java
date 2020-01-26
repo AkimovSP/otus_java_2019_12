@@ -164,22 +164,22 @@ else
             }
     }
             //--------------
-
+//Not implemented
     @Override
     public void add(int i, T t) {
-
+        throw new  UnsupportedOperationException();
     }
 
     @Override
     public <T1> T1[] toArray(T1[] t1s) {
-        return null;
+        throw new  UnsupportedOperationException();
     }
 
 
 
     @Override
     public boolean contains(Object o) {
-        return false;
+        throw new  UnsupportedOperationException();
     }
 
 
@@ -188,36 +188,36 @@ else
 
     @Override
     public boolean remove(Object o) {
-        return false;
+        throw new  UnsupportedOperationException();
     }
 
     @Override
     public boolean containsAll(Collection<?> collection) {
-        return false;
+        throw new  UnsupportedOperationException();
     }
 
 
 
     @Override
     public boolean addAll(int i, Collection<? extends T> collection) {
-        return false;
+        throw new  UnsupportedOperationException();
     }
 
     @Override
     public boolean removeAll(Collection<?> collection) {
-        return false;
+        throw new  UnsupportedOperationException();
     }
 
     @Override
     public boolean retainAll(Collection<?> collection) {
-        return false;
+        throw new  UnsupportedOperationException();
     }
 
 
 
     @Override
     public void clear() {
-
+        throw new  UnsupportedOperationException();
     }
 
 
@@ -226,30 +226,30 @@ else
 
     @Override
     public T remove(int i) {
-        return null;
+        throw new  UnsupportedOperationException();
     }
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        throw new  UnsupportedOperationException();
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        throw new  UnsupportedOperationException();
     }
 
     @Override
     public ListIterator<T> listIterator(int i) {
-        return null;
+        throw new  UnsupportedOperationException();
     }
 
     @Override
     public List<T> subList(int i, int i1) {
-        return null;
+        throw new  UnsupportedOperationException();
     }
 
     public void sort() {
-     System.out.println("HI");
+        throw new  UnsupportedOperationException();
     }
 }

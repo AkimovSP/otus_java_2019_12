@@ -65,4 +65,12 @@ public class Main {
         System.out.println("YYY - массив после сортировки");
         yyy.print();
         System.out.println("YYY after sort-  end");
+
+        //Если метод не имплементирован, то он должен выбрасывать исключение UnsupportedOperationException.
+        try {
+            yyy.clear();
+        }catch (UnsupportedOperationException e) {
+            System.out.println("Поймали исключение UnsupportedOperationException");
+        }
+
     }}
