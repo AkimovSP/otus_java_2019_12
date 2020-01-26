@@ -50,6 +50,14 @@ else
         return currentSize;
     }
 
+    public boolean setSize(int newSize) {
+        if (newSize > maximumSize)
+        {throw new IllegalArgumentException("Array overflow");}
+        else
+            currentSize = newSize;
+        return true;
+    }
+
 
     @Override
     public Object[] toArray() {
@@ -57,10 +65,6 @@ else
         return body;
     }
 
-    @Override
-    public <T1> T1[] toArray(T1[] t1s) {
-        return null;
-    }
 
 
     @Override
@@ -78,12 +82,99 @@ else
     }
 
 
-    //--------------
+
+    @Override
+    public T set(int i, T t) {
+//        System.out.println("i="+i+"; currentsiz="+currentSize );
+        if (i > currentSize)
+        {throw new IllegalArgumentException("Array overflow");}
+        else
+        {body[i-1] = t;}
+        return t;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+         return new DIYListItr(0);
+    }
+
+    public ListIterator<T> listIterator() {
+        return  new DIYListItr(0);
+    }
+
+    private class DIYListItr  implements ListIterator<T> {
+        int cursor;
+
+        DIYListItr(int index) {
+            super();
+            this.cursor = index;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        public T next() {
+            int i = this.cursor;
+            if (i >= currentSize) {
+                throw new NoSuchElementException();
+            } else {
+                this.cursor = i + 1;
+                return (T) body[i];
+            }
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return false;
+        }
+
+        @Override
+        public T previous() {
+            return null;
+        }
+
+        @Override
+        public int nextIndex() {
+            return 0;
+        }
+
+        @Override
+        public int previousIndex() {
+            return 0;
+        }
+
+        @Override
+        public void remove() {
+
+        }
+
+        @Override
+        public void set(T t) {
+                    DIYarrayList.this.set(this.cursor, t);
+        }
+
+        @Override
+        public void add(T t) {
+                            int i = this.cursor;
+                DIYarrayList.this.set(i, t);
+                this.cursor = i + 1;
+
+            }
+    }
+            //--------------
 
     @Override
     public void add(int i, T t) {
 
     }
+
+    @Override
+    public <T1> T1[] toArray(T1[] t1s) {
+        return null;
+    }
+
 
 
     @Override
@@ -91,10 +182,6 @@ else
         return false;
     }
 
-    @Override
-    public Iterator<T> iterator() {
-        return null;
-    }
 
 
 
@@ -135,10 +222,6 @@ else
 
 
 
-    @Override
-    public T set(int i, T t) {
-        return null;
-    }
 
 
     @Override
@@ -157,11 +240,6 @@ else
     }
 
     @Override
-    public ListIterator<T> listIterator() {
-        return null;
-    }
-
-    @Override
     public ListIterator<T> listIterator(int i) {
         return null;
     }
@@ -172,6 +250,6 @@ else
     }
 
     public void sort() {
-
+     System.out.println("HI");
     }
 }
