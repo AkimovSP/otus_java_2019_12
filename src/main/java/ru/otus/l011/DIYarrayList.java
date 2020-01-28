@@ -15,6 +15,13 @@ public class DIYarrayList<T> implements List<T> {
         currentSize = 0;
     }
 
+    public DIYarrayList() {
+        this.body = new Object[1];
+        maximumSize = 1;
+
+        currentSize = 0;
+    }
+
     @Override
     public T get(int i) {
         if (i > currentSize) {
