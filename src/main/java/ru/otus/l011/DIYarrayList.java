@@ -35,7 +35,6 @@ public class DIYarrayList<T> implements List<T> {
         if (currentSize >= maximumSize) {
             body = this.grow();
         }
-
         body[currentSize] = t;
         currentSize++;
         return true;
@@ -72,13 +71,11 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public Object[] toArray() {
-
         return body;
     }
 
     @Override
     public boolean addAll(Collection<? extends T> collection) {
-
         for (int i = 0; i < collection.size(); i++) {
             add((T) collection.toArray()[i]);
         }
@@ -92,7 +89,6 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public T set(int i, T t) {
-//        System.out.println("i="+i+"; currentsiz="+currentSize );
         if (i > currentSize) {
             throw new IllegalArgumentException("Array overflow");
         } else {
