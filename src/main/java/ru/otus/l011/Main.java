@@ -7,9 +7,9 @@ public class Main {
 
     public static void main(String... args) {
 
-        DIYarrayList<Integer> ddd = new DIYarrayList<Integer>(20);
-        DIYarrayList<Integer> vvv = new DIYarrayList<Integer>(20);
-        DIYarrayList<Integer> yyy = new DIYarrayList<Integer>(20);
+        DIYarrayList<Integer> ddd = new DIYarrayList<Integer>(1);
+        DIYarrayList<Integer> vvv = new DIYarrayList<Integer>(10);
+        DIYarrayList<Integer> yyy = new DIYarrayList<Integer>(11);
 
         ddd.add(1);
         ddd.add(4);

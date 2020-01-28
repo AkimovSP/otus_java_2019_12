@@ -6,19 +6,18 @@ public class DIYarrayList<T> implements List<T> {
 
     private int currentSize;
     private int maximumSize;
+
     Object[] body;
 
     public DIYarrayList(int maxSize) {
         this.body = new Object[maxSize];
         maximumSize = maxSize;
-
         currentSize = 0;
     }
 
     public DIYarrayList() {
-        this.body = new Object[1];
-        maximumSize = 1;
-
+        this.body = new Object[0];
+        maximumSize = 0;
         currentSize = 0;
     }
 
@@ -34,11 +33,22 @@ public class DIYarrayList<T> implements List<T> {
     @Override
     public boolean add(T t) {
         if (currentSize >= maximumSize) {
-            throw new IllegalArgumentException("Array overflow");
+            body = this.grow();
         }
+
         body[currentSize] = t;
         currentSize++;
         return true;
+    }
+
+    private Object[] grow(int i) {
+        this.maximumSize = this.maximumSize + i;
+        System.out.println("GROW");
+        return this.body = Arrays.copyOf(this.body, this.maximumSize);
+    }
+
+    private Object[] grow() {
+        return grow(1);
     }
 
     public void print() {
@@ -54,9 +64,9 @@ public class DIYarrayList<T> implements List<T> {
 
     public boolean setSize(int newSize) {
         if (newSize > maximumSize) {
-            throw new IllegalArgumentException("Array overflow");
-        } else
-            currentSize = newSize;
+            this.body = this.grow(newSize - maximumSize);
+        }
+        currentSize = newSize;
         return true;
     }
 
