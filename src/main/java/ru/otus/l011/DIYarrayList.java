@@ -8,8 +8,6 @@ public class DIYarrayList<T> implements List<T> {
     private int maximumSize;
     Object[] body;
 
-
-
     public DIYarrayList(int maxSize) {
         this.body = new Object[maxSize];
         maximumSize = maxSize;
@@ -19,22 +17,19 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public T get(int i) {
-        if (i > currentSize)
-        {
+        if (i > currentSize) {
             return null;
-        }
-else
-        {
+        } else {
             return (T) body[i];
         }
-
     }
 
     @Override
     public boolean add(T t) {
-                if( currentSize >= maximumSize)
-                {throw new IllegalArgumentException("Array overflow");}
-                body[currentSize] = t;
+        if (currentSize >= maximumSize) {
+            throw new IllegalArgumentException("Array overflow");
+        }
+        body[currentSize] = t;
         currentSize++;
         return true;
     }
@@ -51,13 +46,12 @@ else
     }
 
     public boolean setSize(int newSize) {
-        if (newSize > maximumSize)
-        {throw new IllegalArgumentException("Array overflow");}
-        else
+        if (newSize > maximumSize) {
+            throw new IllegalArgumentException("Array overflow");
+        } else
             currentSize = newSize;
         return true;
     }
-
 
     @Override
     public Object[] toArray() {
@@ -65,12 +59,10 @@ else
         return body;
     }
 
-
-
     @Override
     public boolean addAll(Collection<? extends T> collection) {
 
-        for(int i = 0; i < collection.size(); i++) {
+        for (int i = 0; i < collection.size(); i++) {
             add((T) collection.toArray()[i]);
         }
         return true;
@@ -81,28 +73,27 @@ else
         return (currentSize == 0);
     }
 
-
-
     @Override
     public T set(int i, T t) {
 //        System.out.println("i="+i+"; currentsiz="+currentSize );
-        if (i > currentSize)
-        {throw new IllegalArgumentException("Array overflow");}
-        else
-        {body[i-1] = t;}
+        if (i > currentSize) {
+            throw new IllegalArgumentException("Array overflow");
+        } else {
+            body[i - 1] = t;
+        }
         return t;
     }
 
     @Override
     public Iterator<T> iterator() {
-         return new DIYListItr(0);
+        return new DIYListItr(0);
     }
 
     public ListIterator<T> listIterator() {
-        return  new DIYListItr(0);
+        return new DIYListItr(0);
     }
 
-    private class DIYListItr  implements ListIterator<T> {
+    private class DIYListItr implements ListIterator<T> {
         int cursor;
 
         DIYListItr(int index) {
@@ -147,109 +138,94 @@ else
 
         @Override
         public void remove() {
-
         }
 
         @Override
         public void set(T t) {
-                    DIYarrayList.this.set(this.cursor, t);
+            DIYarrayList.this.set(this.cursor, t);
         }
 
         @Override
         public void add(T t) {
-                            int i = this.cursor;
-                DIYarrayList.this.set(i, t);
-                this.cursor = i + 1;
-
-            }
+            int i = this.cursor;
+            DIYarrayList.this.set(i, t);
+            this.cursor = i + 1;
+        }
     }
-            //--------------
+
+    //--------------
 //Not implemented
     @Override
     public void add(int i, T t) {
-        throw new  UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <T1> T1[] toArray(T1[] t1s) {
-        throw new  UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
-
-
 
     @Override
     public boolean contains(Object o) {
-        throw new  UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
-
-
-
-
 
     @Override
     public boolean remove(Object o) {
-        throw new  UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean containsAll(Collection<?> collection) {
-        throw new  UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
-
-
 
     @Override
     public boolean addAll(int i, Collection<? extends T> collection) {
-        throw new  UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean removeAll(Collection<?> collection) {
-        throw new  UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean retainAll(Collection<?> collection) {
-        throw new  UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
-
-
 
     @Override
     public void clear() {
-        throw new  UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
-
-
-
-
 
     @Override
     public T remove(int i) {
-        throw new  UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new  UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        throw new  UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public ListIterator<T> listIterator(int i) {
-        throw new  UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<T> subList(int i, int i1) {
-        throw new  UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     public void sort() {
-        throw new  UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 }

@@ -1,6 +1,5 @@
 package ru.otus.l011;
 
-
 import java.util.Collections;
 
 public class Main {
@@ -33,21 +32,17 @@ public class Main {
         ddd.add(18);
         ddd.add(17);
 
-
-//
         System.out.println("Initial array - DDD");
         ddd.print();
         System.out.println("DDD - end");
 
 //проверяем Collections.addAll(Collection<? super T> c, T... elements)
-
         System.out.println("проверяем Collections.addAll(Collection<? super T> c, T... elements)");
         vvv.addAll(ddd);
 
         System.out.println("VVV - массив, созданный методом AddAll");
         vvv.print();
         System.out.println("VVV - end");
-
 
         //проверяем Collections.static <T> void copy(List<? super T> dest, List<? extends T> src)
         System.out.println("проверяем Collections.static <T> void copy(List<? super T> dest, List<? extends T> src)");
@@ -69,8 +64,8 @@ public class Main {
         //Если метод не имплементирован, то он должен выбрасывать исключение UnsupportedOperationException.
         try {
             yyy.clear();
-        }catch (UnsupportedOperationException e) {
+        } catch (UnsupportedOperationException e) {
             System.out.println("Поймали исключение UnsupportedOperationException");
         }
-
-    }}
+    }
+}
