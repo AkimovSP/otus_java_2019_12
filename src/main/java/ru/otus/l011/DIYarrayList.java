@@ -47,7 +47,7 @@ public class DIYarrayList<T> implements List<T> {
     }
 
     private Object[] grow() {
-        return grow(1);
+        return grow(this.maximumSize * 2);
     }
 
     public void print() {
