@@ -9,7 +9,7 @@ public class Main {
     public static void main(String... args) {
 
         DIYarrayList<Integer> ddd = new DIYarrayList<Integer>(1);
-        DIYarrayList<Integer> vvv = new DIYarrayList<Integer>(5);
+        DIYarrayList<Integer> vvv = new DIYarrayList();
         DIYarrayList<Integer> yyy = new DIYarrayList<Integer>(12);
 
         ddd.add(1);
