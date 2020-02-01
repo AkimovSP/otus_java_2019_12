@@ -1,5 +1,6 @@
 package ru.otus.l011;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 public class Main {
@@ -8,8 +9,8 @@ public class Main {
     public static void main(String... args) {
 
         DIYarrayList<Integer> ddd = new DIYarrayList<Integer>(1);
-        DIYarrayList<Integer> vvv = new DIYarrayList<Integer>(10);
-        DIYarrayList<Integer> yyy = new DIYarrayList<Integer>(11);
+        DIYarrayList<Integer> vvv = new DIYarrayList<Integer>(5);
+        DIYarrayList<Integer> yyy = new DIYarrayList<Integer>(12);
 
         ddd.add(1);
         ddd.add(4);
@@ -55,6 +56,7 @@ public class Main {
 
         //проверяем Collections.static <T> void sort(List<T> list, Comparator<? super T> c)
         System.out.println("проверяем Collections.static <T> void sort(List<T> list, Comparator<? super T> c)");
+        yyy.shrink();
         Collections.sort(yyy);
 
         System.out.println("YYY - массив после сортировки");

@@ -21,6 +21,13 @@ public class DIYarrayList<T> implements List<T> {
         currentSize = 0;
     }
 
+    public boolean shrink() {
+        System.out.println("SHRINK, old max size="+this.maximumSize+", new max size="+currentSize);
+        maximumSize = currentSize;
+        this.body = Arrays.copyOf(this.body, this.maximumSize);
+        return true;
+    }
+
     @Override
     public T get(int i) {
         if (i > currentSize) {
@@ -41,13 +48,14 @@ public class DIYarrayList<T> implements List<T> {
     }
 
     private Object[] grow(int i) {
-        this.maximumSize = this.maximumSize + i;
-        System.out.println("GROW");
+        int newSize = this.maximumSize + i;
+        System.out.println("GROW, old max size="+this.maximumSize+", new max size="+newSize);
+        this.maximumSize = newSize;
         return this.body = Arrays.copyOf(this.body, this.maximumSize);
     }
 
     private Object[] grow() {
-        return grow(this.maximumSize * 2);
+        return grow(this.maximumSize);
     }
 
     public void print() {
@@ -63,7 +71,8 @@ public class DIYarrayList<T> implements List<T> {
 
     public boolean setSize(int newSize) {
         if (newSize > maximumSize) {
-            this.body = this.grow(newSize - maximumSize);
+            int increment = Math.max(newSize - this.maximumSize, this.maximumSize );
+            this.body = this.grow(increment);
         }
         currentSize = newSize;
         return true;
