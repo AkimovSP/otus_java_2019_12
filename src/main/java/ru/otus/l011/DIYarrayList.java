@@ -6,6 +6,7 @@ public class DIYarrayList<T> implements List<T> {
 
     private int currentSize;
     private int maximumSize;
+    private static int defaultSize = 5;
 
     Object[] body;
 
@@ -16,8 +17,8 @@ public class DIYarrayList<T> implements List<T> {
     }
 
     public DIYarrayList() {
-        this.body = new Object[0];
-        maximumSize = 0;
+        this.body = new Object[defaultSize];
+        maximumSize = defaultSize;
         currentSize = 0;
     }
 
