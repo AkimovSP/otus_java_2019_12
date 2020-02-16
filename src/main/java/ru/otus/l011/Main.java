@@ -42,6 +42,9 @@ public class Main {
                 a.add(String.valueOf("AAA fff AAA fff sss DDD FFF DDD jjj IIIG DDDS ffffffffffffff dassssssssssss"));
                 j = a.size() / 2;
                 a.set(j, a.get(j).replace("f", "F"));
+                if (i % 250_000 == 1) {
+                    System.out.println("I=" + i);
+                }
             }
             System.out.println("L=" + l);
         }
