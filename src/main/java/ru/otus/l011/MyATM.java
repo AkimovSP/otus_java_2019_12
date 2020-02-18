@@ -6,11 +6,7 @@ package ru.otus.l011;
 
 import java.util.ArrayList;
 
-enum Currency {RUB, EUR, USD};
-
-enum CashNominal {NOM_10, NOM_20, NOM_50, NOM_100, NOM_200, NOM_500, NOM_1000, NOM_2000, NOM_5000};
-
-public class MyATM {
+public class MyATM implements MyATMInterface {
     private String name;
     private String address;
 
@@ -30,29 +26,10 @@ public class MyATM {
 
     private ArrayList<MyCashCell> getTypicalPairs(Currency currency) {
         ArrayList<MyCashCell> result = new ArrayList<MyCashCell>();
-        switch (currency) {
-            case RUB:
-                result.add(new MyCashCell(Currency.RUB, CashNominal.NOM_50, 0));
-                result.add(new MyCashCell(Currency.RUB, CashNominal.NOM_100, 0));
-                result.add(new MyCashCell(Currency.RUB, CashNominal.NOM_200, 0));
-                result.add(new MyCashCell(Currency.RUB, CashNominal.NOM_500, 0));
-                result.add(new MyCashCell(Currency.RUB, CashNominal.NOM_1000, 0));
-                result.add(new MyCashCell(Currency.RUB, CashNominal.NOM_2000, 0));
-                result.add(new MyCashCell(Currency.RUB, CashNominal.NOM_5000, 0));
-                break;
-            case EUR:
-                result.add(new MyCashCell(Currency.EUR, CashNominal.NOM_10, 0));
-                result.add(new MyCashCell(Currency.EUR, CashNominal.NOM_20, 0));
-                result.add(new MyCashCell(Currency.EUR, CashNominal.NOM_50, 0));
-                result.add(new MyCashCell(Currency.EUR, CashNominal.NOM_100, 0));
-                result.add(new MyCashCell(Currency.EUR, CashNominal.NOM_500, 0));
-                break;
-            case USD:
-                result.add(new MyCashCell(Currency.USD, CashNominal.NOM_10, 0));
-                result.add(new MyCashCell(Currency.USD, CashNominal.NOM_20, 0));
-                result.add(new MyCashCell(Currency.USD, CashNominal.NOM_50, 0));
-                result.add(new MyCashCell(Currency.USD, CashNominal.NOM_100, 0));
-                break;
+
+        for (CashNominal nominal : MyNominalList.getTypicalNominals(currency)
+        ) {
+            result.add(new MyCashCell(currency, nominal, 0));
         }
         return result;
     }
@@ -61,15 +38,6 @@ public class MyATM {
         for (MyCashCell cell : getTypicalPairs(currency)
         ) {
             this.cashCellsWithValue.add(new MyCashCell(cell.getCurrency(), cell.getNominal(), 0));
-        }
-    }
-
-    private void removeCells(Currency currency, CashNominal nominal) {
-        for (MyCashCell curCell : this.cashCellsWithValue) {
-            if (curCell.getCurrency() == currency & curCell.getNominal() == nominal) {
-                this.cashCellsWithValue.remove(curCell);
-                return;
-            }
         }
     }
 
@@ -100,11 +68,11 @@ public class MyATM {
         ArrayList<MyCashCell> result = new ArrayList<MyCashCell>();
         ArrayList<MyCashCell> copyOfCashCellsWithValue = new ArrayList<MyCashCell>();
         for (MyCashCell curCell : cashCellsWithValue) {
-            copyOfCashCellsWithValue.add(new MyCashCell(curCell.currency, curCell.nominal, curCell.currentValue));
+            copyOfCashCellsWithValue.add(new MyCashCell(curCell.getCurrency(), curCell.getNominal(), curCell.getCurrentValue()));
         }
 
 //идем по убыванию номинала
-        for (CashNominal nominal : NominalList.getDescendingSortedList()) {
+        for (CashNominal nominal : MyNominalList.getDescendingSortedList()) {
             if (value == 0) {
                 break;
             }
@@ -145,7 +113,7 @@ public class MyATM {
         this.cashCellsWithValue.add(cell);
     }
 
-    public boolean removePair(Currency currency, CashNominal nominal) {
+    public boolean removeCell(Currency currency, CashNominal nominal) {
         for (MyCashCell curCell : this.cashCellsWithValue) {
             if (curCell.getNominal() == nominal & curCell.getCurrency() == currency) {
                 if (curCell.getCurrentValue() != 0) {
@@ -173,82 +141,6 @@ public class MyATM {
             result = result.concat(cell.toString());
         }
         return result;
-    }
-
-    private class MyCashCell {
-        private Currency currency;
-        private CashNominal nominal;
-        private int currentValue;
-
-        public MyCashCell(Currency currency, CashNominal nominal, int value) {
-            this.currency = currency;
-            this.nominal = nominal;
-            this.currentValue = value;
-        }
-
-        public Currency getCurrency() {
-            return currency;
-        }
-
-        public CashNominal getNominal() {
-            return nominal;
-        }
-
-        public int getBalance() {
-            return getIntNominal() * currentValue;
-        }
-
-        public int getIntNominal() {
-            switch (nominal) {
-                case NOM_10:
-                    return 10;
-                case NOM_20:
-                    return 20;
-                case NOM_50:
-                    return 50;
-                case NOM_100:
-                    return 100;
-                case NOM_200:
-                    return 200;
-                case NOM_500:
-                    return 500;
-                case NOM_1000:
-                    return 1000;
-                case NOM_2000:
-                    return 2000;
-                case NOM_5000:
-                    return 5000;
-            }
-            return 0;
-        }
-
-        public int getCurrentValue() {
-            return currentValue;
-        }
-
-        public void setCurrentValue(int currentValue) {
-            this.currentValue = currentValue;
-        }
-
-        public String toString() {
-            return currency.toString() + " " + nominal.toString() + " " + currentValue;
-        }
-    }
-
-    private static class NominalList {
-        public static ArrayList<CashNominal> getDescendingSortedList() {
-            ArrayList<CashNominal> result = new ArrayList<CashNominal>();
-            result.add(CashNominal.NOM_5000);
-            result.add(CashNominal.NOM_2000);
-            result.add(CashNominal.NOM_1000);
-            result.add(CashNominal.NOM_500);
-            result.add(CashNominal.NOM_200);
-            result.add(CashNominal.NOM_100);
-            result.add(CashNominal.NOM_50);
-            result.add(CashNominal.NOM_20);
-            result.add(CashNominal.NOM_10);
-            return result;
-        }
     }
 }
 
