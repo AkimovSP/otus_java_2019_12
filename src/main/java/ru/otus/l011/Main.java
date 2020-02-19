@@ -6,7 +6,9 @@ import java.lang.reflect.Parameter;
 
 public class Main {
     public static void main(String... args) {
-        MyATM myATM = new MyATM();
+
+        //RUB
+        MyATM myATM = new MyATMImpl();
         myATM.addCurrency(Currency.RUB);
         System.out.println("Available cells = " + myATM.getAvailableCellsList());
         myATM.removeCell(Currency.RUB, CashNominal.NOM_5000);
@@ -31,5 +33,10 @@ public class Main {
 
         System.out.println(myATM.downloadCash(Currency.RUB, 4880));
         System.out.println("ATM balance is " + myATM.getBalance(Currency.RUB) + " " + Currency.RUB);
+
+        //EUR
+        myATM.addCurrency(Currency.EUR);
+        System.out.println("Available cells = " + myATM.getAvailableCellsList());
+        System.out.println("Adding cell for 2000 EUR is "+myATM.addCell(Currency.EUR, CashNominal.NOM_2000));//false
     }
 }

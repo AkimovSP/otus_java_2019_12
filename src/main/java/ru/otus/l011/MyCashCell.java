@@ -1,42 +1,15 @@
 package ru.otus.l011;
 
-public class MyCashCell implements MyCashCellInterface{
-    private Currency currency;
-    private CashNominal nominal;
-    private int currentValue;
+public interface MyCashCell {
+    Currency getCurrency();
 
-    public MyCashCell(Currency currency, CashNominal nominal, int value) {
-        this.currency = currency;
-        this.nominal = nominal;
-        this.currentValue = value;
-    }
+    CashNominal getNominal();
 
-    public Currency getCurrency() {
-        return currency;
-    }
+    int getBalance();
 
-    public CashNominal getNominal() {
-        return nominal;
-    }
+    int getCurrentValue();
 
-    public int getBalance() {
-        return MyNominalList.getIntNominal(this.nominal) * currentValue;
-    }
+    int getIntNominal();
 
-    public int getIntNominal() {
-        return MyNominalList.getIntNominal(this.nominal);
-    }
-
-    public int getCurrentValue() {
-        return currentValue;
-    }
-
-    public void setCurrentValue(int currentValue) {
-        this.currentValue = currentValue;
-    }
-
-    public String toString() {
-        return currency.toString() + " " + nominal.toString() + " " + currentValue;
-    }
+    boolean setCurrentValue(int currentValue);
 }
-

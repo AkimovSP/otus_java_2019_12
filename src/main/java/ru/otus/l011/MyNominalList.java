@@ -17,30 +17,6 @@ public class MyNominalList {
         return result;
     }
 
-    public static int getIntNominal(CashNominal nominal) {
-        switch (nominal) {
-            case NOM_10:
-                return 10;
-            case NOM_20:
-                return 20;
-            case NOM_50:
-                return 50;
-            case NOM_100:
-                return 100;
-            case NOM_200:
-                return 200;
-            case NOM_500:
-                return 500;
-            case NOM_1000:
-                return 1000;
-            case NOM_2000:
-                return 2000;
-            case NOM_5000:
-                return 5000;
-        }
-        return 0;
-    }
-
     public static ArrayList<CashNominal> getTypicalNominals(Currency currency) {
         ArrayList<CashNominal> result = new ArrayList<CashNominal>();
         switch (currency) {
