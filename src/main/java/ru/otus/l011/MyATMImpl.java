@@ -42,6 +42,9 @@ public class MyATMImpl implements MyATM {
     }
 
     public int getBalance(Currency currency) {
+        if (this.state == StateProvider.getTechnicalState()) {
+            throw new Error("Wrong state");
+        }
         int result = 0;
         for (MyCashCell curCell : this.cashCellsWithValue) {
             if (curCell.getCurrency() == currency) {
@@ -152,9 +155,24 @@ public class MyATMImpl implements MyATM {
     public String getAvailableCellsList() {
         String result = "";
         for (MyCashCell cell : this.cashCellsWithValue) {
-            result = result.concat(cell.toString()+" ");
+            result = result.concat(cell.toString() + " ");
         }
         return result;
     }
+
+    private State state = StateProvider.getTechnicalState();
+
+    public void changeState() {
+        this.setState(state.action());
+    }
+
+    void setState(State state) {
+        this.state = state;
+    }
+
+    public String getState() {
+        return this.state.toString();
+    }
+
 }
 

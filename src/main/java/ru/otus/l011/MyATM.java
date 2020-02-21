@@ -28,4 +28,8 @@ public interface MyATM {
     String getName();
 
     String getAddress();
+
+    String getState();
+
+    public void changeState();
 }
