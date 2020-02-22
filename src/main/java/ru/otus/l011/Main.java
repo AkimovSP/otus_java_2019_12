@@ -15,41 +15,30 @@ public class Main {
         group.addUnit(atm2);
         group.addUnit(atm3);
 
-        System.out.println("ATMs state is " + group.getState());
-        group.changeState();
-        System.out.println("ATMs state is " + group.getState());
-
         group.addCurrency(Currency.RUB);
-        atm1.uploadCash(Currency.RUB, CashNominal.NOM_5000, 10);
+        group.uploadCash(Currency.RUB, CashNominal.NOM_5000, 10);
         atm2.uploadCash(Currency.RUB, CashNominal.NOM_1000, 10);
         atm3.uploadCash(Currency.RUB, CashNominal.NOM_100, 10);
 
+        System.out.println("ATMs state is " + group.getState());
+        group.changeState();
+        System.out.println("ATMs state is " + group.getState());
+
+        System.out.println("Group balance is " + group.getBalance(Currency.RUB) + " " + Currency.RUB);
+        atm3.downloadCash(Currency.RUB, 20000);
+        atm1.uploadCash(Currency.RUB, CashNominal.NOM_50, 5);
+        atm2.downloadCash(Currency.RUB, 1000);
+        atm3.uploadCash(Currency.RUB, CashNominal.NOM_200, 8);
         System.out.println("Group balance is " + group.getBalance(Currency.RUB) + " " + Currency.RUB);
 
+        //Восстанавливаем первичное состояние
         group.changeState();
         System.out.println("ATMs state is " + group.getState());
-
-        //Error
-        try {
-            System.out.println("Group balance is " + group.getBalance(Currency.RUB) + " " + Currency.RUB);
-        } catch (Error e) {
-            System.out.println("Wrong state for getting balance");
-        }
-
-        group.changeState();
-        System.out.println("ATMs state is " + group.getState());
-
-        //OK
-        try {
-            System.out.println("Group balance is " + group.getBalance(Currency.RUB) + " " + Currency.RUB);
-        } catch (Error e) {
-            System.out.println("Wrong state for getting balance");
-        }
-
+        System.out.println("Group balance is " + group.getBalance(Currency.RUB) + " " + Currency.RUB);
     }
 
-
     public static void CheckAtm(String... args) {
+        // not used for a while
 
         //RUB
         MyATM myATM = new MyATMImpl();

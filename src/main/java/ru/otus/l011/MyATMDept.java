@@ -35,7 +35,12 @@ public class MyATMDept implements MyATM {
 
     @Override
     public boolean uploadCash(Currency currency, CashNominal nominal, int value) {
-        return false;
+        boolean result = true;
+        for (MyATM myATM :
+                units) {
+            result = result & myATM.uploadCash(currency, nominal, value);
+        }
+        return result;
     }
 
     @Override
@@ -87,7 +92,7 @@ public class MyATMDept implements MyATM {
     }
 
     @Override
-    public String getState(){
+    public String getState() {
         String result = "";
         for (MyATM myATM :
                 units) {

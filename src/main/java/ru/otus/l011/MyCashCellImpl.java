@@ -1,6 +1,6 @@
 package ru.otus.l011;
 
-public class MyCashCellImpl implements MyCashCell {
+public class MyCashCellImpl implements MyCashCell, Cloneable {
     private Currency currency;
     private CashNominal nominal;
     private int currentValue;
@@ -10,6 +10,14 @@ public class MyCashCellImpl implements MyCashCell {
         this.nominal = nominal;
         this.currentValue = value;
     }
+
+
+    public MyCashCellImpl(MyCashCell cell) {
+        this.currency = cell.getCurrency();
+        this.nominal = cell.getNominal();
+        this.currentValue = cell.getCurrentValue();
+    }
+
 
     public Currency getCurrency() {
         return currency;

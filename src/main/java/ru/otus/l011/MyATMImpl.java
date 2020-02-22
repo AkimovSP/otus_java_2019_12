@@ -5,6 +5,8 @@ package ru.otus.l011;
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class MyATMImpl implements MyATM {
     private String name;
@@ -12,16 +14,20 @@ public class MyATMImpl implements MyATM {
 
     private ArrayList<MyCashCell> cashCellsWithValue;
 
+    private ArrayList<MyCashCell> initialCashCells;
+
     public MyATMImpl() {
         this.name = "";
         this.address = "";
         this.cashCellsWithValue = new ArrayList<MyCashCell>();
+        this.initialCashCells = new ArrayList<MyCashCell>();
     }
 
     public MyATMImpl(String name, String address) {
         this.name = name;
         this.address = address;
         this.cashCellsWithValue = new ArrayList<MyCashCell>();
+        this.initialCashCells = new ArrayList<MyCashCell>();
     }
 
     private ArrayList<MyCashCell> getPossiblePairs(Currency currency) {
@@ -42,9 +48,7 @@ public class MyATMImpl implements MyATM {
     }
 
     public int getBalance(Currency currency) {
-        if (this.state == StateProvider.getTechnicalState()) {
-            throw new Error("Wrong state");
-        }
+
         int result = 0;
         for (MyCashCell curCell : this.cashCellsWithValue) {
             if (curCell.getCurrency() == currency) {
@@ -163,6 +167,22 @@ public class MyATMImpl implements MyATM {
     private State state = StateProvider.getTechnicalState();
 
     public void changeState() {
+        if (state == StateProvider.getTechnicalState()) {
+            //Сохраняем состояние банкомата
+            this.initialCashCells.clear();
+            for (MyCashCell cell :
+                    this.cashCellsWithValue) {
+                this.initialCashCells.add(new MyCashCellImpl(cell));
+            }
+        }
+        if (state == StateProvider.getWorkingState()) {
+            //Возвращаем состояние банкомата
+            this.cashCellsWithValue.clear();
+            for (MyCashCell cell :
+                    this.initialCashCells) {
+                this.cashCellsWithValue.add(new MyCashCellImpl(cell));
+            }
+        }
         this.setState(state.action());
     }
 

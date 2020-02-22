@@ -1,6 +1,6 @@
 package ru.otus.l011;
 
-public interface MyCashCell {
+public interface MyCashCell{
     Currency getCurrency();
 
     CashNominal getNominal();
