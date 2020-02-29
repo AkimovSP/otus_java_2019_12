@@ -11,13 +11,11 @@ public class MyCashCellImpl implements MyCashCell, Comparable<MyCashCell> {
         this.currentValue = value;
     }
 
-
     public MyCashCellImpl(MyCashCell cell) {
         this.currency = cell.getCurrency();
         this.nominal = cell.getNominal();
         this.currentValue = cell.getCurrentValue();
     }
-
 
     public Currency getCurrency() {
         return currency;
