@@ -1,6 +1,6 @@
 package ru.otus.l011;
 
-import java.util.ArrayList;
+import java.util.TreeSet;
 
 public interface MyATM {
 
@@ -14,7 +14,10 @@ public interface MyATM {
     boolean uploadCash(Currency currency, CashNominal nominal, int value);
 
     //выдача наличных
-    ArrayList<MyCashCell> downloadCash(Currency currency, int value);
+    TreeSet<MyCashCell> downloadCash(Currency currency, int value);
+
+    //выдача наличных
+    TreeSet<MyCashCell> getCashCellsList();
 
     //настройка банкомата
     boolean removeCell(Currency currency, CashNominal nominal);
@@ -28,8 +31,4 @@ public interface MyATM {
     String getName();
 
     String getAddress();
-
-    String getState();
-
-    public void changeState();
 }

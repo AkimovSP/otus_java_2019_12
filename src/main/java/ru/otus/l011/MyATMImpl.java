@@ -5,29 +5,37 @@ package ru.otus.l011;
  */
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.TreeSet;
 
 public class MyATMImpl implements MyATM {
     private String name;
     private String address;
-
-    private ArrayList<MyCashCell> cashCellsWithValue;
-
-    private ArrayList<MyCashCell> initialCashCells;
+    private TreeSet<MyCashCell> cashCellsWithValue;
 
     public MyATMImpl() {
         this.name = "";
         this.address = "";
-        this.cashCellsWithValue = new ArrayList<MyCashCell>();
-        this.initialCashCells = new ArrayList<MyCashCell>();
+        this.cashCellsWithValue = new TreeSet<MyCashCell>();
     }
 
     public MyATMImpl(String name, String address) {
         this.name = name;
         this.address = address;
-        this.cashCellsWithValue = new ArrayList<MyCashCell>();
-        this.initialCashCells = new ArrayList<MyCashCell>();
+        this.cashCellsWithValue = new TreeSet<MyCashCell>();
+    }
+
+    public MyATMImpl(MyATM src) {
+        this.name = src.getName();
+        this.address = src.getAddress();
+        this.cashCellsWithValue = new TreeSet<MyCashCell>();
+
+        for (MyCashCell curCell : src.getCashCellsList()) {
+            this.cashCellsWithValue.add(new MyCashCellImpl(curCell));
+        }
+    }
+
+    public TreeSet<MyCashCell> getCashCellsList() {
+        return this.cashCellsWithValue;
     }
 
     private ArrayList<MyCashCell> getPossiblePairs(Currency currency) {
@@ -69,33 +77,27 @@ public class MyATMImpl implements MyATM {
         return false;
     }
 
-    public ArrayList<MyCashCell> downloadCash(Currency currency, int value) {
+    public TreeSet<MyCashCell> downloadCash(Currency currency, int value) {
         System.out.println("Download cash request " + value + " " + currency);
 
-        ArrayList<MyCashCell> result = new ArrayList<MyCashCell>();
-        ArrayList<MyCashCell> copyOfCashCellsWithValue = new ArrayList<MyCashCell>();
+        TreeSet<MyCashCell> result = new TreeSet<MyCashCell>();
+        TreeSet<MyCashCell> copyOfCashCellsWithValue = new TreeSet<MyCashCell>();
         for (MyCashCell curCell : cashCellsWithValue) {
             copyOfCashCellsWithValue.add(new MyCashCellImpl(curCell.getCurrency(), curCell.getNominal(), curCell.getCurrentValue()));
         }
 
 //идем по убыванию номинала
-        for (CashNominal nominal : MyNominalList.getDescendingSortedList()) {
-            if (value == 0) {
-                break;
-            }
-            Object nom = nominal;
-            for (MyCashCell curCell : copyOfCashCellsWithValue) {
-                if (curCell.getCurrency() == currency & curCell.getNominal() == nominal) {
-                    int numberOfBanknotes = value / curCell.getIntNominal();
-                    numberOfBanknotes = Math.min(numberOfBanknotes, curCell.getCurrentValue());
-                    if (numberOfBanknotes > 0) {
-                        curCell.setCurrentValue(curCell.getCurrentValue() - numberOfBanknotes);
-                        value -= numberOfBanknotes * curCell.getIntNominal();
-                        result.add(new MyCashCellImpl(currency, nominal, numberOfBanknotes));
-                    }
-                    if (value == 0) {
-                        break;
-                    }
+        for (MyCashCell curCell : copyOfCashCellsWithValue) {
+            if (curCell.getCurrency() == currency /*& curCell.getNominal() == nominal*/) {
+                int numberOfBanknotes = value / curCell.getIntNominal();
+                numberOfBanknotes = Math.min(numberOfBanknotes, curCell.getCurrentValue());
+                if (numberOfBanknotes > 0) {
+                    curCell.setCurrentValue(curCell.getCurrentValue() - numberOfBanknotes);
+                    value -= numberOfBanknotes * curCell.getIntNominal();
+                    result.add(new MyCashCellImpl(currency, curCell.getNominal(), numberOfBanknotes));
+                }
+                if (value == 0) {
+                    break;
                 }
             }
         }
@@ -163,36 +165,5 @@ public class MyATMImpl implements MyATM {
         }
         return result;
     }
-
-    private State state = StateProvider.getTechnicalState();
-
-    public void changeState() {
-        if (state == StateProvider.getTechnicalState()) {
-            //Сохраняем состояние банкомата
-            this.initialCashCells.clear();
-            for (MyCashCell cell :
-                    this.cashCellsWithValue) {
-                this.initialCashCells.add(new MyCashCellImpl(cell));
-            }
-        }
-        if (state == StateProvider.getWorkingState()) {
-            //Возвращаем состояние банкомата
-            this.cashCellsWithValue.clear();
-            for (MyCashCell cell :
-                    this.initialCashCells) {
-                this.cashCellsWithValue.add(new MyCashCellImpl(cell));
-            }
-        }
-        this.setState(state.action());
-    }
-
-    void setState(State state) {
-        this.state = state;
-    }
-
-    public String getState() {
-        return this.state.toString();
-    }
-
 }
 

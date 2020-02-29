@@ -1,16 +1,12 @@
 package ru.otus.l011;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-
 public class Main {
     public static void main(String... args) {
-        MyATM atm1 = new MyATMImpl();
-        MyATM atm2 = new MyATMImpl();
-        MyATM atm3 = new MyATMImpl();
+        MyATM atm1 = new MyATMImpl("ATM1","");
+        MyATM atm2 = new MyATMImpl("ATM2","");
+        MyATM atm3 = new MyATMImpl("ATM3","");
 
-        MyATMDept group = new MyATMDept();
+        MyATMDept group = new MyATMDeptImpl();
         group.addUnit(atm1);
         group.addUnit(atm2);
         group.addUnit(atm3);
@@ -20,21 +16,51 @@ public class Main {
         atm2.uploadCash(Currency.RUB, CashNominal.NOM_1000, 10);
         atm3.uploadCash(Currency.RUB, CashNominal.NOM_100, 10);
 
-        System.out.println("ATMs state is " + group.getState());
-        group.changeState();
-        System.out.println("ATMs state is " + group.getState());
-
         System.out.println("Group balance is " + group.getBalance(Currency.RUB) + " " + Currency.RUB);
+        System.out.println("-------------Saving stateATMs state-------------");
+        group.saveState();
+//161 000
+
         atm3.downloadCash(Currency.RUB, 20000);
         atm1.uploadCash(Currency.RUB, CashNominal.NOM_50, 5);
         atm2.downloadCash(Currency.RUB, 1000);
         atm3.uploadCash(Currency.RUB, CashNominal.NOM_200, 8);
         System.out.println("Group balance is " + group.getBalance(Currency.RUB) + " " + Currency.RUB);
+        System.out.println("-------------Saving stateATMs state-------------");
+        group.saveState();
+//141 850
 
-        //Восстанавливаем первичное состояние
-        group.changeState();
-        System.out.println("ATMs state is " + group.getState());
+        atm3.uploadCash(Currency.RUB, CashNominal.NOM_200, 8);
         System.out.println("Group balance is " + group.getBalance(Currency.RUB) + " " + Currency.RUB);
+        System.out.println("-------------Saving stateATMs state-------------");
+        group.saveState();
+//143 450
+
+        atm3.uploadCash(Currency.RUB, CashNominal.NOM_200, 8);
+        System.out.println("Group balance is " + group.getBalance(Currency.RUB) + " " + Currency.RUB);
+        System.out.println("-------------Saving stateATMs state-------------");
+        group.saveState();
+//145 050
+
+        atm3.uploadCash(Currency.RUB, CashNominal.NOM_200, 8);
+        System.out.println("Group balance is " + group.getBalance(Currency.RUB) + " " + Currency.RUB);
+        System.out.println("-------------NOT SAVED STATE-------------");
+//146 650
+
+        System.out.println("-------------Restoring stateATMs state-------------");
+        group.restoreState();
+        System.out.println("Group balance is " + group.getBalance(Currency.RUB) + " " + Currency.RUB);
+//145 450
+
+        System.out.println("-------------Restoring stateATMs state-------------");
+        group.restoreState();
+        System.out.println("Group balance is " + group.getBalance(Currency.RUB) + " " + Currency.RUB);
+//143 450
+
+        System.out.println("-------------Restoring INITIAL stateATMs state-------------");
+        group.restoreInitialState();
+        System.out.println("Group balance is " + group.getBalance(Currency.RUB) + " " + Currency.RUB);
+//161 000
     }
 
     public static void CheckAtm(String... args) {
