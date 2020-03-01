@@ -16,10 +16,11 @@ class Originator {
     }
 
     public State restoreInitialState() {
-        State res;
-        do {
+        State res = null;
+        while (!stack.isEmpty()) {
             res = restoreState();
-        } while (!stack.isEmpty());
+        }
+        ;
         return res;
     }
 }
