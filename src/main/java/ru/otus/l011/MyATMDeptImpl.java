@@ -4,16 +4,14 @@ import java.util.*;
 
 public class MyATMDeptImpl implements MyATMDept {
     private List<MyATM> units = new ArrayList<>();
-
-    //stack
-    private final Deque<Memento> stack = new ArrayDeque<>();
+    private final Originator originator = new Originator();
 
     public void saveState() {
-        stack.push(new Memento(new State(units)));
+        originator.saveState(new State(units));
     }
 
     public void restoreState() {
-        units = stack.pop().getState().getArray();
+        units = originator.restoreState().getArray();
     }
 
     public void addUnit(MyATM unit) {
@@ -21,13 +19,7 @@ public class MyATMDeptImpl implements MyATMDept {
     }
 
     public void restoreInitialState() {
-        do {
-            try {
-                restoreState();
-            } catch (NoSuchElementException e) {
-                break;
-            }
-        } while (true);
+        units = originator.restoreInitialState().getArray();
     }
 
     public int getBalance(Currency currency) {
