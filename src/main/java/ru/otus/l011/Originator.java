@@ -20,7 +20,6 @@ class Originator {
         while (!stack.isEmpty()) {
             res = restoreState();
         }
-        ;
         return res;
     }
 }
