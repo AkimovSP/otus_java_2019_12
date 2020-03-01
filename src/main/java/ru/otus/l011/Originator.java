@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 class Originator {
-    //Фактически, это stack
+    //stack
     private final Deque<Memento> stack = new ArrayDeque<>();
 
     void saveState(State state) {
