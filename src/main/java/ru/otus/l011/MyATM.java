@@ -26,7 +26,7 @@ public interface MyATM {
     boolean addCell(Currency currency, CashNominal nominal);
 
     //уточнение возможностей конкретного банкомам
-    public String getAvailableCellsList();
+    String getAvailableCellsList();
 
     String getName();
 
