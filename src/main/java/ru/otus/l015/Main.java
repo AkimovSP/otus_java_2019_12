@@ -1,7 +1,6 @@
-package ru.otus.l15.json.gson;
+package ru.otus.l015;
 
 import com.google.gson.Gson;
-
 
 public class Main {
     public static void main(String[] args) {

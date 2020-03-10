@@ -1,4 +1,4 @@
-package ru.otus.l15.json.gson;
+package ru.otus.l015;
 
 import java.util.Objects;
 
