@@ -3,16 +3,23 @@ package ru.otus.l015;
 import com.google.gson.Gson;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IllegalAccessException {
         Gson gson = new Gson();
-        BagOfPrimitives obj = new BagOfPrimitives(22, "test", 10);
-        System.out.println(obj);
 
-        String json = gson.toJson(obj);
-        System.out.println(json);
+        BagOfPrimitives obj = new BagOfPrimitives(22, "test", true, (short) 12, (byte) 15, 1.0F, 1.0D, 1L, '!');
+        BagOfPrimitives obj2 = new BagOfPrimitives(22, "", true, (short) 12, (byte) 15, 1.0F, 1.0D, 1L, ' ');
 
-        BagOfPrimitives obj2 = gson.fromJson(json, BagOfPrimitives.class);
-        System.out.println(obj.equals(obj2));
-        System.out.println(obj2);
+        DiyGson gson2 = new DiyGsonImpl();
+
+        System.out.println(gson2.toJson(obj));
+        System.out.println(gson2.toJson(obj2));
+
+
+        String json2 = gson.toJson(obj);
+        System.out.println(json2);
+
+//        BagOfPrimitives obj2 = gson.fromJson(json, BagOfPrimitives.class);
+//        System.out.println(obj.equals(obj2));
+//        System.out.println(obj2);
     }
 }
