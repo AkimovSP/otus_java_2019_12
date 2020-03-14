@@ -5,29 +5,29 @@ import java.util.HashSet;
 import java.util.Objects;
 
 public class BagOfPrimitives {
-    private final int valueInt;
-    private final String valueString;
-    private final boolean valueBoolean;
+    private int valueInt;
+    private String valueString;
+    private boolean valueBoolean;
 
-    private final short valueShort;
+    private short valueShort;
 
-    private final byte valueByte;
-    private final float valueFloat;
-    private final double valueDouble;
-    private final long valueLong;
-    private final char valueChar;
+    private byte valueByte;
+    private float valueFloat;
+    private double valueDouble;
+    private long valueLong;
+    private char valueChar;
 
-    private final ArrayList<Integer> arrayListInt;
-    private final ArrayList<String> arrayListString;
-    private final ArrayList<InternalClass> arrayListInternal;
+    private ArrayList<Integer> arrayListInt;
+    private ArrayList<String> arrayListString;
+    private ArrayList<InternalClass> arrayListInternal;
 
-    private final HashSet<Integer> hashSetInt;
-    private final HashSet<String> hashSetString;
-    private final HashSet<InternalClass> hashSetInternal;
+    private HashSet<Integer> hashSetInt;
+    private HashSet<String> hashSetString;
+    private HashSet<InternalClass> hashSetInternal;
 
-    private final int[] arrayInt;
-    private final String[] arrayString;
-    private final InternalClass[] arrayInternal;
+    private int[] arrayInt;
+    private String[] arrayString;
+    private InternalClass[] arrayInternal;
 
 
     BagOfPrimitives(int valueInt, String valueString, boolean valueBoolean,
@@ -89,6 +89,18 @@ public class BagOfPrimitives {
         for (int i = 0; i < 3; i++) {
             hashSetInternal.add(new InternalClass());
         }
+    }
+
+    public void clearArrays() {
+        arrayInt = new int[0];
+        arrayInternal = new InternalClass[0];
+        arrayString = new String[0];
+        arrayListInt = new ArrayList<Integer>();
+        arrayListString = new ArrayList<String>();
+        arrayListInternal = new ArrayList<>();
+        hashSetInt = new HashSet<>();
+        hashSetString = new HashSet<>();
+        hashSetInternal = new HashSet<>();
     }
 
     /*@Override
