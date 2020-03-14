@@ -2,7 +2,6 @@ package ru.otus.l015;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Objects;
 
 public class BagOfPrimitives {
     private int valueInt;
@@ -103,30 +102,6 @@ public class BagOfPrimitives {
         hashSetInternal = new HashSet<>();
     }
 
-    /*@Override
-    public String toString() {
-        return "BagOfPrimitives{" +
-                "value1=" + value1 +
-                ", value2='" + value2 + '\'' +
-                ", value3=" + value3 +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BagOfPrimitives that = (BagOfPrimitives) o;
-        return value1 == that.value1 &&
-                value3 == that.value3 &&
-                Objects.equals(value2, that.value2);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value1, value2, value3);
-    }
-*/
     private class InternalClass {
         public int internalValueInt = 1;
         public String internalValueString = "2";

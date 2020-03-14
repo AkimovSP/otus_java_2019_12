@@ -50,7 +50,6 @@ public class DiyGsonImpl implements DiyGson {
             }
         }
         res += DiyGsonConstants.JSON_OBJECT_RIGHT_BRACKET.val;
-
         return res;
     }
 
@@ -66,7 +65,6 @@ public class DiyGsonImpl implements DiyGson {
         } else {
             res += arrayAbstractToJson(fff.get(src));
         }
-
         res += DiyGsonConstants.JSON_ARRAY_RIGHT_BRACKET.val;
         return res;
     }
