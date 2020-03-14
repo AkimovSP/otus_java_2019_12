@@ -19,11 +19,16 @@ public class BagOfPrimitives {
 
     private final ArrayList<Integer> arrayListInt;
     private final ArrayList<String> arrayListString;
+    private final ArrayList<InternalClass> arrayListInternal;
+
     private final HashSet<Integer> hashSetInt;
     private final HashSet<String> hashSetString;
+    private final HashSet<InternalClass> hashSetInternal;
 
     private final int[] arrayInt;
     private final String[] arrayString;
+    private final InternalClass[] arrayInternal;
+
 
     BagOfPrimitives(int valueInt, String valueString, boolean valueBoolean,
                     short valueShort, byte valueByte, float valueFloat, double valueDouble, long valueLong, char valueChar) {
@@ -37,10 +42,15 @@ public class BagOfPrimitives {
         this.valueLong = valueLong;
         this.valueChar = valueChar;
 
-
+//Arrays
         arrayInt = new int[5];
         for (int i = 0; i < 5; i++) {
             arrayInt[i] = i;
+        }
+
+        arrayInternal = new InternalClass[3];
+        for (int i = 0; i < 3; i++) {
+            arrayInternal[i] = new InternalClass();
         }
 
         arrayString = new String[5];
@@ -48,6 +58,7 @@ public class BagOfPrimitives {
             arrayString[i] = Integer.toString(i);
         }
 
+//ArrayLists
         arrayListInt = new ArrayList<Integer>();
         for (int i = 0; i < 5; i++) {
             arrayListInt.add(i);
@@ -58,6 +69,12 @@ public class BagOfPrimitives {
             arrayListString.add(Integer.toString(i));
         }
 
+        arrayListInternal = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            arrayListInternal.add(new InternalClass());
+        }
+
+//HashSets
         hashSetInt = new HashSet<>();
         for (int i = 0; i < 5; i++) {
             hashSetInt.add(i);
@@ -66,6 +83,11 @@ public class BagOfPrimitives {
         hashSetString = new HashSet<>();
         for (int i = 0; i < 5; i++) {
             hashSetString.add(Integer.toString(i));
+        }
+
+        hashSetInternal = new HashSet<>();
+        for (int i = 0; i < 3; i++) {
+            hashSetInternal.add(new InternalClass());
         }
     }
 
@@ -92,10 +114,10 @@ public class BagOfPrimitives {
     public int hashCode() {
         return Objects.hash(value1, value2, value3);
     }
-
-    private class internalClass {
-        int o = 1;
-        int a = 2;
-    }*/
+*/
+    private class InternalClass {
+        public int internalValueInt = 1;
+        public String internalValueString = "2";
+    }
 }
 
