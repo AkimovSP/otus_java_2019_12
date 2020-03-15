@@ -1,6 +1,7 @@
 package ru.otus.l015;
 
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -10,104 +11,44 @@ public class DiyGsonImpl implements DiyGson {
     public String toJson(Object src) throws IllegalAccessException {
         String res = "";
 
-        Class aClass = src.getClass();
-        res = DiyGsonConstants.JSON_OBJECT_LEFT_BRACKET.val;
-        for (Field fff : aClass.getDeclaredFields()) {
-            if (fff.getName().equals(DiyGsonConstants.JSON_THIS.val)) {
+        if (src == null) {
+            return DiyGsonConstants.JSON_NULL.val;
+        } else {
+            Class aClass = src.getClass();
+            String simpleFieldTypeName = aClass.getTypeName();
+            if (simpleFieldTypeName.contains(DiyGsonConstants.JSON_ARRAY.val)) {
+                res += toJsonArray(src, simpleFieldTypeName);
+            } else if (src instanceof Collection) {
+                res += toJsonCollection(src, simpleFieldTypeName);
+            } else if (simpleFieldTypeName.contains(DiyGsonConstants.JSON_PRIMITIVE_TYPES.val)) {
+                res += toJsonPrimitive(src, simpleFieldTypeName);
             } else {
-                if (res != DiyGsonConstants.JSON_OBJECT_LEFT_BRACKET.val) {
-                    res += DiyGsonConstants.JSON_COMMA.val;
-                }
-                res += DiyGsonConstants.JSON_QOUTE.val + fff.getName() + DiyGsonConstants.JSON_QOUTE.val + DiyGsonConstants.JSON_COLON.val;
-                fff.setAccessible(true);
-
-                String simpleFieldTypeName = fff.getType().getSimpleName();
-                if (simpleFieldTypeName.contains(DiyGsonConstants.JSON_ARRAY.val)) {
-                    res += toJsonArray(src, simpleFieldTypeName, fff);
-                } else {
-                    switch (simpleFieldTypeName) {
-                        case "ArrayList":
-                            res += toJsonArrayList(src, simpleFieldTypeName, fff);
-                            break;
-                        case "HashSet":
-                            res += toJsonHashSet(src, simpleFieldTypeName, fff);
-                            break;
-                        case "String":
-                        case "char":
-                            res += DiyGsonConstants.JSON_QOUTE.val + fff.get(src) + DiyGsonConstants.JSON_QOUTE.val;
-                            break;
-                        case "int":
-                        case "boolean":
-                        case "short":
-                        case "double":
-                        case "byte":
-                        case "float":
-                        case "long":
-                            res += fff.get(src);
-                            break;
-                    }
-                }
+                res += toJsonComplex(src, aClass);
             }
         }
-        res += DiyGsonConstants.JSON_OBJECT_RIGHT_BRACKET.val;
         return res;
     }
 
-    private String toJsonArray(Object src, String simpleFieldTypeName, Field fff) throws IllegalAccessException {
+    private String toJsonArray(Object src, String simpleFieldTypeName) throws IllegalAccessException {
         String res = "";
+        Object currentItem;
         res += DiyGsonConstants.JSON_ARRAY_LEFT_BRACKET.val;
 
-        //не очень красиво, но по-другому не получилось
-        if (simpleFieldTypeName.equals(DiyGsonConstants.JSON_STRING_ARRAY.val)) {
-            res += arrayStringToJson(fff.get(src));
-        } else if (simpleFieldTypeName.equals(DiyGsonConstants.JSON_INT_ARRAY.val)) {
-            res += arrayIntToJson(fff.get(src));
-        } else {
-            res += arrayAbstractToJson(fff.get(src));
-        }
-        res += DiyGsonConstants.JSON_ARRAY_RIGHT_BRACKET.val;
-        return res;
-    }
-
-    private String toJsonArrayList(Object src, String simpleFieldTypeName, Field fff) throws IllegalAccessException {
-        String res = "";
-        String separator = "";
-        res += DiyGsonConstants.JSON_ARRAY_LEFT_BRACKET.val;
-
-        ArrayList arr;
-        arr = (ArrayList) fff.get(src);
-
-        for (int i = 0; i < arr.size(); i++) {
+        for (int i = 0; i < Array.getLength(src); i++) {
             if (i > 0) {
                 res += DiyGsonConstants.JSON_COMMA.val;
             }
-            String typeNameElement = arr.get(i).getClass().getTypeName();
-            if (typeNameElement.contains(DiyGsonConstants.JSON_PRIMITIVE_TYPES.val)) {
-                String genericType = fff.getGenericType().getTypeName();
-                if (genericType.contains(DiyGsonConstants.JSON_STRING.val)) {
-                    separator = DiyGsonConstants.JSON_QOUTE.val;
-                } else {
-                    separator = "";
-                }
-
-                res += separator + arr.get(i).toString() + separator;
-            } else {
-                res += toJson(arr.get(i));
-            }
+            currentItem = Array.get(src, i);
+            res += toJson(currentItem);
         }
         res += DiyGsonConstants.JSON_ARRAY_RIGHT_BRACKET.val;
         return res;
     }
 
-    private String toJsonHashSet(Object src, String simpleFieldTypeName, Field fff) throws IllegalAccessException {
+    private String toJsonCollection(Object src, String simpleFieldTypeName) throws IllegalAccessException {
         String res = "";
-        String separator = "";
         res += DiyGsonConstants.JSON_ARRAY_LEFT_BRACKET.val;
-
-        HashSet hash;
-        hash = (HashSet) fff.get(src);
-
-        Iterator iterator = hash.iterator();
+        Iterator iterator = ((Collection) src).iterator();
         boolean isFirst = true;
         while (iterator.hasNext()) {
             if (!isFirst) {
@@ -117,61 +58,48 @@ public class DiyGsonImpl implements DiyGson {
             }
 
             Object currentItem = iterator.next();
-            String typeNameElement = currentItem.getClass().getTypeName();
-            if (typeNameElement.contains(DiyGsonConstants.JSON_PRIMITIVE_TYPES.val)) {
-                String genericTypeHash = fff.getGenericType().getTypeName();
-                if (genericTypeHash.contains(DiyGsonConstants.JSON_STRING.val)) {
-                    separator = DiyGsonConstants.JSON_QOUTE.val;
-                } else {
-                    separator = "";
-                }
-
-                res += separator + currentItem + separator;
-            } else {
-                res += toJson(currentItem);
-            }
+            res += toJson(currentItem);
         }
         res += DiyGsonConstants.JSON_ARRAY_RIGHT_BRACKET.val;
         return res;
     }
 
-    private String arrayIntToJson(Object arr) {
+    private String toJsonPrimitive(Object src, String simpleFieldTypeName) {
         String res = "";
-        int[] simpleArray = (int[]) arr;
-
-        for (int i = 0; simpleArray.length > i; i++) {
-            if (i > 0) {
-                res += DiyGsonConstants.JSON_COMMA.val;
-            }
-            res += simpleArray[i];
+        switch (simpleFieldTypeName) {
+            case "java.lang.String":
+            case "java.lang.Character":
+                res += DiyGsonConstants.JSON_QOUTE.val + src + DiyGsonConstants.JSON_QOUTE.val;
+                break;
+            case "java.lang.Integer":
+            case "java.lang.Boolean":
+            case "java.lang.Short":
+            case "java.lang.Double":
+            case "java.lang.Byte":
+            case "java.lang.Float":
+            case "java.lang.Long":
+                res += src;
+                break;
         }
         return res;
     }
 
-    private String arrayAbstractToJson(Object arr) throws IllegalAccessException {
+    private String toJsonComplex(Object src, Class aClass) throws IllegalAccessException {
         String res = "";
-        Object[] simpleArray = (Object[]) arr;
-
-        for (int i = 0; simpleArray.length > i; i++) {
-            if (i > 0) {
-                res += DiyGsonConstants.JSON_COMMA.val;
+        res = DiyGsonConstants.JSON_OBJECT_LEFT_BRACKET.val;
+        for (Field currentField : aClass.getDeclaredFields()) {
+            if (currentField.getName().equals(DiyGsonConstants.JSON_THIS.val)) {
+            } else {
+                if (res != DiyGsonConstants.JSON_OBJECT_LEFT_BRACKET.val) {
+                    res += DiyGsonConstants.JSON_COMMA.val;
+                }
+                res += DiyGsonConstants.JSON_QOUTE.val + currentField.getName() + DiyGsonConstants.JSON_QOUTE.val + DiyGsonConstants.JSON_COLON.val;
+                currentField.setAccessible(true);
+                res += toJson(currentField.get(src));
             }
-            res += toJson(simpleArray[i]);
         }
+        res += DiyGsonConstants.JSON_OBJECT_RIGHT_BRACKET.val;
         return res;
     }
 
-    private String arrayStringToJson(Object arr) {
-        String res = "";
-        String[] simpleArray = (String[]) arr;
-
-        for (int i = 0; simpleArray.length > i; i++) {
-            if (i > 0) {
-                res += DiyGsonConstants.JSON_COMMA.val;
-            }
-
-            res += DiyGsonConstants.JSON_QOUTE.val + simpleArray[i] + DiyGsonConstants.JSON_QOUTE.val;
-        }
-        return res;
-    }
 }

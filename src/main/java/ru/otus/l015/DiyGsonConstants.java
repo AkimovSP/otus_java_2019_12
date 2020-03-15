@@ -10,10 +10,8 @@ public enum DiyGsonConstants {
     JSON_ARRAY_LEFT_BRACKET("["),
     JSON_ARRAY_RIGHT_BRACKET("]"),
     JSON_ARRAY("[]"),
-    JSON_STRING_ARRAY("String[]"),
-    JSON_INT_ARRAY("int[]"),
     JSON_PRIMITIVE_TYPES("java.lang."),
-    JSON_STRING("String");
+    JSON_NULL("null");
 
     public String val;
 
