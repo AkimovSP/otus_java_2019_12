@@ -100,7 +100,6 @@ class TestFramework {
         } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
             e.printStackTrace();
         }
-
         System.out.println("Test framework finished - " + testClass);
     }
 }
