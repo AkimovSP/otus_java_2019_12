@@ -3,6 +3,7 @@ package ru.otus.l015;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.*;
 
 public class DiyGsonImpl implements DiyGson {
@@ -15,13 +16,13 @@ public class DiyGsonImpl implements DiyGson {
             return DiyGsonConstants.JSON_NULL.val;
         } else {
             Class aClass = src.getClass();
-            String simpleFieldTypeName = aClass.getTypeName();
-            if (simpleFieldTypeName.contains(DiyGsonConstants.JSON_ARRAY.val)) {
-                res += toJsonArray(src, simpleFieldTypeName);
+            if (aClass.isArray()) {
+                res += toJsonArray(src);
             } else if (src instanceof Collection) {
-                res += toJsonCollection(src, simpleFieldTypeName);
-            } else if (simpleFieldTypeName.contains(DiyGsonConstants.JSON_PRIMITIVE_TYPES.val)) {
-                res += toJsonPrimitive(src, simpleFieldTypeName);
+                res += toJsonCollection(src);
+            } else if (src instanceof Number || src instanceof java.lang.Boolean
+                    || src instanceof java.lang.Character || src instanceof java.lang.String) {
+                res += toJsonPrimitive(src);
             } else {
                 res += toJsonComplex(src, aClass);
             }
@@ -29,7 +30,7 @@ public class DiyGsonImpl implements DiyGson {
         return res;
     }
 
-    private String toJsonArray(Object src, String simpleFieldTypeName) throws IllegalAccessException {
+    private String toJsonArray(Object src) throws IllegalAccessException {
         String res = "";
         Object currentItem;
         res += DiyGsonConstants.JSON_ARRAY_LEFT_BRACKET.val;
@@ -45,7 +46,7 @@ public class DiyGsonImpl implements DiyGson {
         return res;
     }
 
-    private String toJsonCollection(Object src, String simpleFieldTypeName) throws IllegalAccessException {
+    private String toJsonCollection(Object src) throws IllegalAccessException {
         String res = "";
         res += DiyGsonConstants.JSON_ARRAY_LEFT_BRACKET.val;
         Iterator iterator = ((Collection) src).iterator();
@@ -64,23 +65,16 @@ public class DiyGsonImpl implements DiyGson {
         return res;
     }
 
-    private String toJsonPrimitive(Object src, String simpleFieldTypeName) {
+    private String toJsonPrimitive(Object src) {
         String res = "";
-        switch (simpleFieldTypeName) {
-            case "java.lang.String":
-            case "java.lang.Character":
-                res += DiyGsonConstants.JSON_QOUTE.val + src + DiyGsonConstants.JSON_QOUTE.val;
-                break;
-            case "java.lang.Integer":
-            case "java.lang.Boolean":
-            case "java.lang.Short":
-            case "java.lang.Double":
-            case "java.lang.Byte":
-            case "java.lang.Float":
-            case "java.lang.Long":
-                res += src;
-                break;
+
+        if (src instanceof java.lang.String ||
+                src instanceof java.lang.Character) {
+            res += DiyGsonConstants.JSON_QOUTE.val + src + DiyGsonConstants.JSON_QOUTE.val;
+        } else {
+            res += src;
         }
+
         return res;
     }
 
@@ -89,11 +83,13 @@ public class DiyGsonImpl implements DiyGson {
         res = DiyGsonConstants.JSON_OBJECT_LEFT_BRACKET.val;
         for (Field currentField : aClass.getDeclaredFields()) {
             if (currentField.getName().equals(DiyGsonConstants.JSON_THIS.val)) {
+            } else if (Modifier.isStatic(currentField.getModifiers())) {
             } else {
                 if (res != DiyGsonConstants.JSON_OBJECT_LEFT_BRACKET.val) {
                     res += DiyGsonConstants.JSON_COMMA.val;
                 }
                 res += DiyGsonConstants.JSON_QOUTE.val + currentField.getName() + DiyGsonConstants.JSON_QOUTE.val + DiyGsonConstants.JSON_COLON.val;
+
                 currentField.setAccessible(true);
                 res += toJson(currentField.get(src));
             }
@@ -101,5 +97,4 @@ public class DiyGsonImpl implements DiyGson {
         res += DiyGsonConstants.JSON_OBJECT_RIGHT_BRACKET.val;
         return res;
     }
-
 }

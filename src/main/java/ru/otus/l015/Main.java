@@ -16,20 +16,20 @@ public class Main {
         BagOfPrimitives obj2 = new BagOfPrimitives(22, "", true, (short) 12, (byte) 15, 1.0F, 1.0D, 1L, ' ');
         obj2.clearArrays();
 
-        System.out.println("Full object - DIYJson / Gson");
-        objJson2 = gson2.toJson(obj);
-        System.out.println(objJson2);
+        System.out.println("Full object - Gson / DIYJson");
         objJson1 = gson.toJson(obj);
         System.out.println(objJson1);
+        objJson2 = gson2.toJson(obj);
+        System.out.println(objJson2);
         System.out.println(objJson1.equals(objJson2));
 
         System.out.println("-----");
 
-        System.out.println("Short object - DIYJson / Gson");
-        objJson2 = gson2.toJson(obj2);
-        System.out.println(objJson2);
+        System.out.println("Short object - Gson / DIYJson");
         objJson1 = gson.toJson(obj2);
         System.out.println(objJson1);
+        objJson2 = gson2.toJson(obj2);
+        System.out.println(objJson2);
         System.out.println(objJson1.equals(objJson2));
 
         System.out.println("-----");

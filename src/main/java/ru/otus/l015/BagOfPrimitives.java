@@ -7,6 +7,9 @@ public class BagOfPrimitives {
     private int valueInt;
     private String valueString;
     private boolean valueBoolean;
+    private static final String valueString2 = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
+    private final String valueString3 = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
+    private static  String valueString4 = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
     private short valueShort;
 
@@ -27,7 +30,6 @@ public class BagOfPrimitives {
     private int[] arrayInt;
     private String[] arrayString;
     private InternalClass[] arrayInternal;
-
 
     BagOfPrimitives(int valueInt, String valueString, boolean valueBoolean,
                     short valueShort, byte valueByte, float valueFloat, double valueDouble, long valueLong, char valueChar) {
