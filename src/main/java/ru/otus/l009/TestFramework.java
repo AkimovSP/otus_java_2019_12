@@ -92,14 +92,12 @@ class TestFramework {
                 }
 
                 //Запускаем методы after
-                if (!beforeFailed) {
-                    for (Method afterMethod : methodsAfter) {
-                        try {
-                            afterMethod.invoke(obj);
-                        } catch (Exception e) {
-                            System.out.println("TEST AFTER FAILED!!! " + afterMethod.getName());
-                            isFailed = true;
-                        }
+                for (Method afterMethod : methodsAfter) {
+                    try {
+                        afterMethod.invoke(obj);
+                    } catch (Exception e) {
+                        System.out.println("TEST AFTER FAILED!!! " + afterMethod.getName());
+                        isFailed = true;
                     }
                 }
 
