@@ -3,14 +3,15 @@ package ru.otus.l009;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.HashSet;
+import java.util.Set;
 
 class TestFramework {
-    private static HashSet<Method> methodsBefore = new HashSet<Method>();
-    private static HashSet<Method> methodsAfter = new HashSet<Method>();
-    private static HashSet<Method> methodsTest = new HashSet<Method>();
+    private Set<Method> methodsAfter = new HashSet<Method>();
+    private Set<Method> methodsTest = new HashSet<Method>();
+    private Set<Method> methodsBefore = new HashSet<Method>();
 
-    public int errorTests;
-    public int okTests;
+    private int errorTests;
+    private int okTests;
 
     private Class currentClass;
 
@@ -57,39 +58,56 @@ class TestFramework {
     public void runTests(String testClass) {
         System.out.println("Test framework started - " + testClass);
         try {
-            // Загружаем класс по имени
             for (Method testMethod : methodsTest) {
                 //создаем объект
                 Constructor<?> constructor =
                         currentClass.getDeclaredConstructor();
                 constructor.setAccessible(true);
                 Object obj = constructor.newInstance();
-                try {
-                    Boolean beforeFailed = false;
-                    System.out.println("-------------------------------");
-                    System.out.println("START testing " + testMethod);
-                    //Запускаем методы before
-                    for (Method mmmb : methodsBefore) {
-                        try {
-                            mmmb.invoke(obj);
-                        } catch (Exception e) {
-                            System.out.println("TEST BEFORE FAILED!!!");
-                            beforeFailed = true;
-                            break;
-                        }
-                    }
+                boolean beforeFailed = false;
+                boolean isFailed = false;
 
+                System.out.println("-------------------------------");
+                System.out.println("START testing " + testMethod);
+                //Запускаем методы before
+                for (Method beforeMethod : methodsBefore) {
+                    try {
+                        beforeMethod.invoke(obj);
+                    } catch (Exception e) {
+                        System.out.println("TEST BEFORE FAILED!!! " + beforeMethod.getName());
+                        beforeFailed = true;
+                        isFailed = true;
+                        break;
+                    }
+                }
+
+                //Запускаем основной метод
+                try {
                     if (!beforeFailed) {
-                        //Запускаем тестовый метод
                         testMethod.invoke(obj);
                     }
-                    //Запускаем методы after
+                } catch (Exception e) {
+                    isFailed = true;
+                    System.out.println("TEST main FAILED!!! " + testMethod.getName());
+                }
+
+                //Запускаем методы after
+                if (!beforeFailed) {
                     for (Method afterMethod : methodsAfter) {
-                        afterMethod.invoke(obj);
+                        try {
+                            afterMethod.invoke(obj);
+                        } catch (Exception e) {
+                            System.out.println("TEST AFTER FAILED!!! " + afterMethod.getName());
+                            isFailed = true;
+                        }
                     }
+                }
+
+                //Подводим итог
+                if (!isFailed) {
                     System.out.println("FINISH testing " + testMethod);
                     okTests++;
-                } catch (Exception e) {
+                } else {
                     System.out.println("TEST FAILED!!!");
                     errorTests++;
                 }
@@ -101,5 +119,13 @@ class TestFramework {
             e.printStackTrace();
         }
         System.out.println("Test framework finished - " + testClass);
+    }
+
+    public int getErrorTests() {
+        return errorTests;
+    }
+
+    public int getOkTests() {
+        return okTests;
     }
 }

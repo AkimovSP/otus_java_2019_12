@@ -7,6 +7,6 @@ public class Main {
         System.out.println("-------------------------------");
         test.runTests("ru.otus.l009.TestClass");
         System.out.println("-------------------------------");
-        System.out.println("Test results - ok=" + test.okTests + ", error=" + test.errorTests);
+        System.out.println("Test results - ok=" + test.getOkTests() + ", error=" + test.getErrorTests());
     }
 }
