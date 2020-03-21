@@ -5,12 +5,10 @@ import org.slf4j.LoggerFactory;
 import ru.otus.core.dao.AccountDao;
 import ru.otus.core.dao.UserDaoException;
 import ru.otus.core.model.Account;
-import ru.otus.core.model.User;
 import ru.otus.core.sessionmanager.SessionManager;
 import ru.otus.jdbc.DbExecutor;
 import ru.otus.jdbc.SQLMapperJDBC;
 import ru.otus.jdbc.sessionmanager.SessionManagerJdbc;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -98,5 +96,4 @@ public class AccountDaoJdbc implements AccountDao {
     private Connection getConnection() {
         return sessionManager.getCurrentSession().getConnection();
     }
-
 }

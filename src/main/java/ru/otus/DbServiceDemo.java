@@ -17,7 +17,6 @@ import ru.otus.jdbc.SQLMapperJDBCImpl;
 import ru.otus.jdbc.dao.AccountDaoJdbc;
 import ru.otus.jdbc.dao.UserDaoJdbc;
 import ru.otus.jdbc.sessionmanager.SessionManagerJdbc;
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

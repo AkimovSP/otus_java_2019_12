@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import ru.otus.core.dao.AccountDao;
 import ru.otus.core.model.Account;
 import ru.otus.core.sessionmanager.SessionManager;
-
 import java.util.Optional;
 
 public class DBServiceAccountImpl implements DBServiceAccount {

@@ -10,7 +10,6 @@ import ru.otus.core.sessionmanager.SessionManager;
 import ru.otus.jdbc.DbExecutor;
 import ru.otus.jdbc.SQLMapperJDBC;
 import ru.otus.jdbc.sessionmanager.SessionManagerJdbc;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;

@@ -1,14 +1,9 @@
 package ru.otus.jdbc;
 
 import ru.otus.core.model.Id;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 public class SQLMapperJDBCImpl implements SQLMapperJDBC {
 
@@ -61,9 +56,9 @@ public class SQLMapperJDBCImpl implements SQLMapperJDBC {
                 }
             }
             if (!isID) {
-                if (fieldsWithParams != "")
-                {fieldsWithParams += ", ";}
-
+                if (fieldsWithParams != "") {
+                    fieldsWithParams += ", ";
+                }
                 fieldsWithParams += currentField.getName();
                 fieldsWithParams += " = ";
                 fieldsWithParams += " ? ";

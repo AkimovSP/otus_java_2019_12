@@ -1,7 +1,6 @@
 package ru.otus.jdbc.sessionmanager;
 
 import ru.otus.core.sessionmanager.DatabaseSession;
-
 import java.sql.Connection;
 
 public class DatabaseSessionJdbc implements DatabaseSession {
