@@ -1,6 +1,7 @@
 package ru.otus.jdbc;
 
 import ru.otus.core.model.Id;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -8,24 +9,20 @@ import java.util.ArrayList;
 public class SQLMapperJDBCImpl implements SQLMapperJDBC {
 
     @Override
-    public String createSQLInsert(Class paramClass) {
-        String fieldID = "";
+    public String createSQLInsert(Class<?> paramClass) {
         ArrayList<String> tableFields = new ArrayList<String>();
         boolean isID = false;
         String paramList = "";
 
         for (Field currentField : paramClass.getDeclaredFields()) {
             for (Annotation annotation : currentField.getDeclaredAnnotations()) {
-                if (fieldID == "") {
-                    if ((annotation.annotationType().getTypeName() == Id.class.getTypeName())) {
-                        fieldID = currentField.getName();
-                        isID = true;
-                    }
+                if ((annotation.annotationType().getTypeName().equals(Id.class.getTypeName()))) {
+                    isID = true;
                 }
             }
             if (!isID) {
                 tableFields.add(currentField.getName());
-                if (paramList != "") {
+                if (!paramList.equals("")) {
                     paramList += ",";
                 }
                 paramList += "?";
@@ -39,59 +36,59 @@ public class SQLMapperJDBCImpl implements SQLMapperJDBC {
     }
 
     @Override
-    public String createSQLUpdate(Class paramClass) {
+    public String createSQLUpdate(Class<?> paramClass) throws SQLMapperException {
         String fieldID = "";
         String fieldsWithParams = "";
-        ArrayList<String> tableFields = new ArrayList<String>();
         boolean isID = false;
-        String paramList = "";
 
         for (Field currentField : paramClass.getDeclaredFields()) {
             for (Annotation annotation : currentField.getDeclaredAnnotations()) {
-                if (fieldID == "") {
-                    if ((annotation.annotationType().getTypeName() == Id.class.getTypeName())) {
+                if (fieldID.equals("")) {
+                    if ((annotation.annotationType().getTypeName().equals(Id.class.getTypeName()))) {
                         fieldID = currentField.getName();
                         isID = true;
                     }
                 }
             }
             if (!isID) {
-                if (fieldsWithParams != "") {
+                if (!fieldsWithParams.equals("")) {
                     fieldsWithParams += ", ";
                 }
                 fieldsWithParams += currentField.getName();
-                fieldsWithParams += " = ";
-                fieldsWithParams += " ? ";
+                fieldsWithParams += " = ?";
             }
             isID = false;
         }
 
-        return "update  " + paramClass.getSimpleName()
-                + " set "
-                + fieldsWithParams
-                + " where " + fieldID + " = ?";
+        if (fieldID.equals("")) {
+            throw new SQLMapperException("No ID field in class");
+        } else {
+            return "update  " + paramClass.getSimpleName()
+                    + " set "
+                    + fieldsWithParams
+                    + " where " + fieldID + " = ?";
+        }
     }
 
     @Override
-    public String createSQLSelect(Class paramClass) {
+    public String createSQLSelect(Class<?> paramClass) {
         String fieldID = "";
         ArrayList<String> tableFields = new ArrayList<String>();
         String paramList = "";
 
         for (Field currentField : paramClass.getDeclaredFields()) {
             for (Annotation annotation : currentField.getDeclaredAnnotations()) {
-                if (fieldID == "") {
-                    if ((annotation.annotationType().getTypeName() == Id.class.getTypeName())) {
+                if (fieldID.equals("")) {
+                    if ((annotation.annotationType().getTypeName().equals(Id.class.getTypeName()))) {
                         fieldID = currentField.getName();
                     }
                 }
             }
             tableFields.add(currentField.getName());
-            if (paramList != "") {
+            if (!paramList.equals("")) {
                 paramList += ",";
             }
             paramList += "?";
-
         }
 
         return "select " + tableFields.toString().substring(1, tableFields.toString().length() - 1) + " from " +
