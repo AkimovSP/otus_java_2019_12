@@ -5,7 +5,7 @@ import java.util.WeakHashMap;
 
 public class MyCache<K, V> implements HwCache<K, V> {
 
-    WeakHashMap<K, V> cacheHashMap = new WeakHashMap();
+    WeakHashMap<K, V> cacheHashMap = new WeakHashMap<K, V>();
     ArrayList<HwListener> listeners = new ArrayList<>();
 
     @Override

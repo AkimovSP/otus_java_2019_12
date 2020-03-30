@@ -11,7 +11,7 @@ public class HWCacheDemo {
   }
 
   private void demo() {
-    HwCache<Integer, Integer> cache = new MyCache<>();
+    HwCache<Integer, Integer> cache = new MyCache<Integer, Integer>();
 
     HwListener<Integer, Integer> listener = new HwListenerImpl(logger, "Listener1");
     HwListener<Integer, Integer> listener2 = new HwListenerImpl(logger, "Listener2");

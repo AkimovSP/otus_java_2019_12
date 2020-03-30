@@ -74,6 +74,13 @@ public class DbServiceUserImpl implements DBServiceUser {
             try {
                 Optional<User> userOptional = userDao.findById(id);
 //                  logger.info("user: {}", userOptional.orElse(null));
+
+                //сохраняем в кэш
+                if (useCache) {
+                    logger.info("Cached user: {}", id);
+                    cache.put(Long.toString(id), userOptional.orElse(null));
+                }
+
                 return userOptional;
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);

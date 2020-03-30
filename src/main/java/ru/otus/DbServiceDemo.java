@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DbServiceDemo {
-    private static boolean useCache = false;
+    private static boolean useCache = true;
     //false - запускаем без кэша
     //true - запускаем с кэшем
 
