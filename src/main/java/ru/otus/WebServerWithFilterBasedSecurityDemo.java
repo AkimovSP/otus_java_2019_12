@@ -7,14 +7,12 @@ import ru.otus.core.dao.UserDao;
 import ru.otus.core.model.User;
 import ru.otus.core.service.DBServiceUser;
 import ru.otus.core.service.DbServiceUserImpl;
+import ru.otus.hibernate.HibernateUtils;
 import ru.otus.hibernate.dao.UserDaoHibernate;
 import ru.otus.hibernate.sessionmanager.SessionManagerHibernate;
 import ru.otus.server.UsersWebServer;
 import ru.otus.server.UsersWebServerWithFilterBasedSecurity;
-import ru.otus.services.TemplateProcessor;
-import ru.otus.services.TemplateProcessorImpl;
-import ru.otus.services.UserAuthService;
-import ru.otus.services.UserAuthServiceImpl;
+import ru.otus.services.*;
 
 import java.util.Optional;
 
@@ -38,13 +36,14 @@ public class WebServerWithFilterBasedSecurityDemo {
 
     public static void main(String[] args) throws Exception {
         SessionFactory sessionFactory = HibernateUtils.buildSessionFactory("hibernate.cfg.xml",
-                new Class[]{User.class});
+                User.class);
 
         SessionManagerHibernate sessionManager = new SessionManagerHibernate(sessionFactory);
 
         UserDao userDao = new UserDaoHibernate(sessionManager);
         DBServiceUser dbServiceUser = new DbServiceUserImpl(userDao);
-        fillDatabase(dbServiceUser);
+        DatabaseInit databaseInit = new DatabaseInitImpl(dbServiceUser);
+        databaseInit.fillDatabase();
 
         Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
         TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
@@ -53,15 +52,7 @@ public class WebServerWithFilterBasedSecurityDemo {
         UsersWebServer usersWebServer = new UsersWebServerWithFilterBasedSecurity(WEB_SERVER_PORT,
                 authService, dbServiceUser, gson, templateProcessor);
 
-
         usersWebServer.start();
         usersWebServer.join();
-    }
-
-    private static void fillDatabase(DBServiceUser dbServiceUser) {
-        User user1 = new User(1, "Сергей", "Serg", "AAA");
-        User user2 = new User(2, "Иван", "Ivan", "BBB");
-        dbServiceUser.saveUser(user1);
-        dbServiceUser.saveUser(user2);
     }
 }

@@ -6,14 +6,7 @@
             const userIdTextBox = document.getElementById('userIdTextBox');
             const userDataContainer = document.getElementById('userDataContainer');
             const id = userIdTextBox.value;
-            //fetch('api/user?id=' + id)
-            fetch('api/user/' + id)
-                .then(response => response.json())
-                .then(user => userDataContainer.innerHTML = JSON.stringify(user));
-        }
-
-        function getAllUsers() {
-            fetch('api/allUsers/')
+            fetch('users/' + id)
                 .then(response => response.json())
                 .then(user => userDataContainer.innerHTML = JSON.stringify(user));
         }
@@ -26,13 +19,11 @@
             const login = newLoginTextBox.value;
             const password = newPassTextBox.value;
 
-            fetch('createUser?name='+name+'&login='+login+'&password='+password,  {method: 'POST'})
+            fetch('users?name='+name+'&login='+login+'&password='+password,  {method: 'POST'})
                 .then(response => response.json())
                 .then(user => userDataContainer.innerHTML = JSON.stringify(user));
             location.reload();
         }
-
-
     </script>
 </head>
 
