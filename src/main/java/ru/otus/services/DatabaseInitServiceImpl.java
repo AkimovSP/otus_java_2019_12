@@ -4,11 +4,11 @@ package ru.otus.services;
 import ru.otus.core.model.User;
 import ru.otus.core.service.DBServiceUser;
 
-public class DatabaseInitImpl implements DatabaseInit {
+public class DatabaseInitServiceImpl implements DatabaseInitService {
 
     private final DBServiceUser dbServiceUser;
 
-    public DatabaseInitImpl(DBServiceUser dbServiceUser) {
+    public DatabaseInitServiceImpl(DBServiceUser dbServiceUser) {
         this.dbServiceUser = dbServiceUser;
     }
 

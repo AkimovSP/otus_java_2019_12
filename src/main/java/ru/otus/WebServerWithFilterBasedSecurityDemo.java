@@ -42,8 +42,8 @@ public class WebServerWithFilterBasedSecurityDemo {
 
         UserDao userDao = new UserDaoHibernate(sessionManager);
         DBServiceUser dbServiceUser = new DbServiceUserImpl(userDao);
-        DatabaseInit databaseInit = new DatabaseInitImpl(dbServiceUser);
-        databaseInit.fillDatabase();
+        DatabaseInitService databaseInitService = new DatabaseInitServiceImpl(dbServiceUser);
+        databaseInitService.fillDatabase();
 
         Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
         TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);

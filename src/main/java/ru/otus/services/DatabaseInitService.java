@@ -1,5 +1,5 @@
 package ru.otus.services;
 
-public interface DatabaseInit {
+public interface DatabaseInitService {
     void fillDatabase();
 }

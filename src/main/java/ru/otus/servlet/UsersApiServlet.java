@@ -35,16 +35,9 @@ public class UsersApiServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         long id = extractIdFromRequest(request);
         if (id == -1) {
-            Map<String, Object> paramsMap = new HashMap<>();
-            paramsMap.put(TEMPLATE_ATTR_USERS, dbServiceUser.getAllUsers());
-
-            response.setContentType("text/html");
-            response.getWriter().println(templateProcessor.getPage(USERS_PAGE_TEMPLATE, paramsMap));
+            createResponseUserList(response);
         } else {
-            User user = dbServiceUser.getUser(id).orElse(null);
-            response.setContentType("application/json;charset=UTF-8");
-            ServletOutputStream out = response.getOutputStream();
-            out.print(gson.toJson(user));
+            createResponseGetUser(response, id);
         }
     }
 
@@ -58,6 +51,21 @@ public class UsersApiServlet extends HttpServlet {
             System.out.println(id);
             return Long.parseLong(id);
         }
+    }
+
+    private void createResponseUserList(HttpServletResponse response) throws IOException {
+        Map<String, Object> paramsMap = new HashMap<>();
+        paramsMap.put(TEMPLATE_ATTR_USERS, dbServiceUser.getAllUsers());
+
+        response.setContentType("text/html");
+        response.getWriter().println(templateProcessor.getPage(USERS_PAGE_TEMPLATE, paramsMap));
+    }
+
+    private void createResponseGetUser(HttpServletResponse response, long id) throws IOException {
+        User user = dbServiceUser.getUser(id).orElse(null);
+        response.setContentType("application/json;charset=UTF-8");
+        ServletOutputStream out = response.getOutputStream();
+        out.print(gson.toJson(user));
     }
 
     @Override
