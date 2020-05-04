@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Пользователи</title>
+    <script>
+        function getUserById() {
+            const userIdTextBox = document.getElementById('userIdTextBox');
+            const userDataContainer = document.getElementById('userDataContainer');
+            const id = userIdTextBox.value;
+            fetch('users/' + id)
+                .then(response => response.json())
+                .then(user => userDataContainer.innerHTML = JSON.stringify(user));
+        }
+
+        function createUser() {
+            const newNameTextBox = document.getElementById('newNameTextBox');
+            const newLoginTextBox = document.getElementById('newLoginTextBox');
+            const newPasswordTextBox = document.getElementById('newPassTextBox');
+            const name = newNameTextBox.value;
+            const login = newLoginTextBox.value;
+            const password = newPassTextBox.value;
+
+            fetch('users?name='+name+'&login='+login+'&password='+password,  {method: 'POST'})
+                .then(response => response.json())
+                .then(user => userDataContainer.innerHTML = JSON.stringify(user));
+            location.reload();
+        }
+    </script>
+</head>
+
+<body>
+<h4>Получить пользователя по id</h4>
+<input type="text" id = "userIdTextBox" value="3" placeholder="Введите id пользователя">
+<button onclick="getUserById()">Получить</button>
+<pre id = "userDataContainer"></pre>
+
+<h4>Добавить пользователя</h4>
+<input type="newname" id = "newNameTextBox" value="ИМЯ" placeholder="Введите имя пользователя">
+<input type="newlogin" id = "newLoginTextBox" value="ЛОГИН" placeholder="Введите логин пользователя">
+<input type="newpass" id = "newPassTextBox" value="ПАРОЛЬ" placeholder="Введите пароль пользователя">
+<button onclick="createUser()">Добавить</button>
+
+
+<h4>Все пользователи</h4>
+<table style="width: 400px">
+    <thead>
+        <tr>
+            <td style="width: 50px">Id</td>
+            <td style="width: 150px">Имя</td>
+            <td style="width: 100px">Логин</td>
+            <td style="width: 100px">Пароль</td>
+        </tr>
+    </thead>
+    <tbody>
+    <#list users as user>
+        <tr>
+            <td><p>${user.id}</td>
+            <td>${user.name}</td>
+            <td>${user.login}</td>
+            <td>${user.password}</td>
+        </tr>
+    </#list>
+    </tbody>
+</table>
+</body>
+</html>
