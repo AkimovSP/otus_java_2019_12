@@ -6,10 +6,15 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
+import javax.servlet.annotation.HttpConstraint;
+import java.beans.BeanProperty;
 import java.util.Arrays;
 
-public final class HibernateUtils {
+public class HibernateUtils {
 
   private HibernateUtils() {
   }

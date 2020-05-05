@@ -2,6 +2,9 @@ package ru.otus.hibernate.sessionmanager;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
 import ru.otus.core.sessionmanager.DatabaseSession;
 
 public class DatabaseSessionHibernate implements DatabaseSession {

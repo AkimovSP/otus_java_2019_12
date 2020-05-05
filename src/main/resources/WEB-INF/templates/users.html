@@ -1,4 +1,4 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Пользователи</title>
     <script>
@@ -6,7 +6,9 @@
             const userIdTextBox = document.getElementById('userIdTextBox');
             const userDataContainer = document.getElementById('userDataContainer');
             const id = userIdTextBox.value;
-            fetch('users/' + id)
+            fetch('users/' + id, {headers: {
+    'Content-Type': 'application/json;charset=utf-8'
+  }})
                 .then(response => response.json())
                 .then(user => userDataContainer.innerHTML = JSON.stringify(user));
         }
@@ -20,8 +22,8 @@
             const password = newPassTextBox.value;
 
             fetch('users?name='+name+'&login='+login+'&password='+password,  {method: 'POST'})
-                .then(response => response.json())
-                .then(user => userDataContainer.innerHTML = JSON.stringify(user));
+                .then(response => response.text())
+                .then(text => userDataContainer.innerHTML = text);
             location.reload();
         }
     </script>
@@ -51,14 +53,12 @@
         </tr>
     </thead>
     <tbody>
-    <#list users as user>
-        <tr>
-            <td><p>${user.id}</td>
-            <td>${user.name}</td>
-            <td>${user.login}</td>
-            <td>${user.password}</td>
-        </tr>
-    </#list>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"><p></p></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.login}"></td>
+        <td th:text="${user.password}"></td>
+             </tr>
     </tbody>
 </table>
 </body>
