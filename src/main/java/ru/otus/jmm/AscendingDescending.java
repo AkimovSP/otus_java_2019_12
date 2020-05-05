@@ -3,7 +3,7 @@ package ru.otus.jmm;
 import java.util.concurrent.TimeUnit;
 
 public class AscendingDescending  {
-    private int currentThreadNumber;
+    private int iterationNumber;
     private final Object monitor = new Object();
 
     public static void main(String[] args) throws InterruptedException {
@@ -40,10 +40,10 @@ public class AscendingDescending  {
         private void inc(int sleepTime, int threadNumber) {
             int i = 0;
             boolean asc = true;
-            while (true) {
+            while (!Thread.currentThread().isInterrupted()) {
                 synchronized (monitor) {
-                    if (currentThreadNumber % 2 == threadNumber) {
-                        currentThreadNumber++;
+                    if (iterationNumber % 2 == threadNumber) {
+                        iterationNumber++;
 
                         if (asc) {
                             i++;
@@ -56,7 +56,7 @@ public class AscendingDescending  {
                                 asc = true;
                             }
                         }
-                        System.out.println(Thread.currentThread().getName() + ", currentThreadNumber=" + currentThreadNumber + ", sleepTime=" + sleepTime+", threadNumber = " + threadNumber + " :: i=" + i);
+                        System.out.println(Thread.currentThread().getName() + ", iterationNumber=" + iterationNumber + ", sleepTime=" + sleepTime+", threadNumber = " + threadNumber + " :: i=" + i);
                         sleep(sleepTime);
                     }
                 }
