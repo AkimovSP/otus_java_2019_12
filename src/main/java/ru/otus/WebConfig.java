@@ -64,17 +64,11 @@ public class WebConfig implements WebMvcConfigurer {
         return sessionFactory;
     }
 
-    @Bean
+/*    @Bean
     public SessionManagerHibernate sessionManager() {
         SessionManagerHibernate sessionManager = new SessionManagerHibernate(sessionFactory());
         return sessionManager;
-    }
-
-    @Bean
-    public Gson gson() {
-        Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
-        return gson;
-    }
+    }*/
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

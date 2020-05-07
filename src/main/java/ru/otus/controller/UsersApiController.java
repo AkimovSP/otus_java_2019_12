@@ -1,6 +1,5 @@
-package ru.otus.servlet;
+package ru.otus.controller;
 
-import com.google.gson.Gson;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,14 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class UsersApiServlet {
+public class UsersApiController {
     private final DBServiceUser dbServiceUser;
-    private final Gson gson;
 
-    public UsersApiServlet(DBServiceUser dbServiceUser,
-                           Gson gson) {
+    public UsersApiController(DBServiceUser dbServiceUser) {
         this.dbServiceUser = dbServiceUser;
-        this.gson = gson;
     }
 
     @GetMapping({"/", "/user/list"})
@@ -27,11 +23,12 @@ public class UsersApiServlet {
         return "users.html";
     }
 
-    @GetMapping(value = {"/users/{id}"}, produces = {"application/json;charset=UTF-8"})
+/*    @GetMapping(value = {"/users/{id}"}, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String createResponseGetUser(@PathVariable("id") long id) {
+    public User createResponseGetUser(@PathVariable("id") long id) {
         User user = dbServiceUser.getUser(id).orElse(null);
-        return gson.toJson(user);
+        return user;
+        //return gson.toJson(user);
     }
 
     @PostMapping(value = {"/users"})
@@ -48,5 +45,5 @@ public class UsersApiServlet {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
+    }*/
 }

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import ru.otus.core.sessionmanager.DatabaseSession;
 
+
 public class DatabaseSessionHibernate implements DatabaseSession {
   private final Session session;
   private final Transaction transaction;

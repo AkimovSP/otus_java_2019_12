@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import ru.otus.core.sessionmanager.SessionManager;
 import ru.otus.core.sessionmanager.SessionManagerException;
 
+@Component
 public class SessionManagerHibernate implements SessionManager {
     private DatabaseSessionHibernate databaseSession;
     private final SessionFactory sessionFactory;
