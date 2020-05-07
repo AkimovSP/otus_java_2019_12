@@ -1,7 +1,5 @@
 package ru.otus;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +14,6 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import ru.otus.core.model.User;
 import ru.otus.hibernate.HibernateUtils;
-import ru.otus.hibernate.sessionmanager.SessionManagerHibernate;
 
 @Configuration
 @ComponentScan
@@ -63,12 +60,6 @@ public class WebConfig implements WebMvcConfigurer {
                 User.class);
         return sessionFactory;
     }
-
-/*    @Bean
-    public SessionManagerHibernate sessionManager() {
-        SessionManagerHibernate sessionManager = new SessionManagerHibernate(sessionFactory());
-        return sessionManager;
-    }*/
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

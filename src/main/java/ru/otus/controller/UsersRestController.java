@@ -1,12 +1,8 @@
 package ru.otus.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.core.model.User;
 import ru.otus.core.service.DBServiceUser;
-
-import java.util.List;
 import java.util.Optional;
 
 @RestController
