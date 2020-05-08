@@ -21,10 +21,14 @@
             const login = newLoginTextBox.value;
             const password = newPassTextBox.value;
 
-            fetch('users?name='+name+'&login='+login+'&password='+password,  {method: 'POST'})
+            fetch('users',
+                 {method: 'POST',
+                 headers: {'Content-Type': 'application/json'},
+                 body: '{"name": "'+name+'", "login": "'+login+'", "password": "'+password+'"}'
+                  })
                 .then(response => response.text())
-                .then(text => userDataContainer.innerHTML = text);
-            location.reload();
+                .then(text => userDataContainer.innerHTML = text)
+                .then( () => location.reload());
         }
     </script>
 </head>

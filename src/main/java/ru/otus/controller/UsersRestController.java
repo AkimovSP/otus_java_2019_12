@@ -22,12 +22,10 @@ public class UsersRestController {
 
     @PostMapping(value = {"/users"})
     @ResponseBody
-    protected void createUser(@RequestParam(name = "name") String name,
-                              @RequestParam(name = "login") String login,
-                              @RequestParam(name = "password") String password) {
+    protected void createUser(@RequestBody User user) {
         try {
-            User user1 = new User(0, name, login, password);
-            var id = dbServiceUser.saveUser(user1);
+            System.out.println("CREATE_USER "+user);
+            var id = dbServiceUser.saveUser(user);
             Optional<User> user2 = dbServiceUser.getUser(id);
 
             user2.orElseThrow(() -> new RuntimeException("User creation failed"));

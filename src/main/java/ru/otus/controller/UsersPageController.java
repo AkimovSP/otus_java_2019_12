@@ -8,10 +8,10 @@ import ru.otus.core.service.DBServiceUser;
 import java.util.List;
 
 @Controller
-public class UsersApiController {
+public class UsersPageController {
     private final DBServiceUser dbServiceUser;
 
-    public UsersApiController(DBServiceUser dbServiceUser) {
+    public UsersPageController(DBServiceUser dbServiceUser) {
         this.dbServiceUser = dbServiceUser;
     }
 
