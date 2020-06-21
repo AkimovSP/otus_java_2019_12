@@ -5,6 +5,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ru.otus.core.model.Card;
+import ru.otus.core.model.MyATMImpl;
+import ru.otus.core.model.MyCashCellImpl;
 import ru.otus.hibernate.HibernateUtils;
 
 public class DatabaseConfig implements WebMvcConfigurer {
@@ -14,11 +16,13 @@ public class DatabaseConfig implements WebMvcConfigurer {
     public DatabaseConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
-    
+
     @Bean
     public SessionFactory sessionFactory() {
         SessionFactory sessionFactory = HibernateUtils.buildSessionFactory("hibernate.cfg.xml",
-                Card.class);
+                //new Class[]{MyCashCellImpl.class, MyATMImpl.class, Card.class});
+//                new Class[]{MyCashCellImpl.class, Card.class });
+                new Class[]{ Card.class});
         return sessionFactory;
     }
 }

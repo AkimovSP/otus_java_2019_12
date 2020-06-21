@@ -24,7 +24,6 @@ public class Card {
     @Column(name = "COLBALANCE")
     private double balance;
 
-
     public Card() {
         this.id = 0;
         this.cardNumber = "";

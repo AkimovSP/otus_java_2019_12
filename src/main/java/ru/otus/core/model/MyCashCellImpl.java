@@ -1,11 +1,25 @@
 package ru.otus.core.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "TCASHCELL")
 public class MyCashCellImpl implements MyCashCell {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(name = "COLCURRENCY")
     private Currency currency;
+
+    @Column(name = "COLNOMINAL")
     private CashNominal nominal;
+
+    @Column(name = "COLVALUE")
     private int currentValue;
 
-    public MyCashCellImpl(Currency currency, CashNominal nominal, int value) {
+    public MyCashCellImpl(long id, Currency currency, CashNominal nominal, int value) {
+        this.id = id;
         this.currency = currency;
         this.nominal = nominal;
         this.currentValue = value;

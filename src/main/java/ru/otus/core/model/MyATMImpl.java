@@ -4,21 +4,35 @@ package ru.otus.core.model;
 -- добавить максимальную вместимость ячеек - сейчас они бесконечные
  */
 
+import javax.persistence.*;
 import java.util.ArrayList;
 
+@Entity
+@Table(name = "TATM")
 public class MyATMImpl implements MyATM {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(name = "COLNAME")
     private String name;
+
+    @Column(name = "COLADDR")
     private String address;
 
+    @OneToMany(targetEntity = MyCashCellImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CASHCELL_ID")
     private ArrayList<MyCashCell> cashCellsWithValue;
 
     public MyATMImpl() {
+        this.id = 0;
         this.name = "";
         this.address = "";
         this.cashCellsWithValue = new ArrayList<MyCashCell>();
     }
 
-    public MyATMImpl(String name, String address) {
+    public MyATMImpl(long id, String name, String address) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.cashCellsWithValue = new ArrayList<MyCashCell>();
@@ -29,15 +43,20 @@ public class MyATMImpl implements MyATM {
 
         for (CashNominal nominal : MyNominalList.getTypicalNominals(currency)
         ) {
-            result.add(new MyCashCellImpl(currency, nominal, 0));
+            result.add(new MyCashCellImpl(0, currency, nominal, 0));
         }
         return result;
+    }
+
+    @Override
+    public long getId() {
+        return this.id;
     }
 
     public void addCurrency(Currency currency) {
         for (MyCashCell cell : getPossiblePairs(currency)
         ) {
-            this.cashCellsWithValue.add(new MyCashCellImpl(cell.getCurrency(), cell.getNominal(), 0));
+            this.cashCellsWithValue.add(new MyCashCellImpl(0, cell.getCurrency(), cell.getNominal(), 0));
         }
     }
 
@@ -68,7 +87,7 @@ public class MyATMImpl implements MyATM {
         ArrayList<MyCashCell> result = new ArrayList<MyCashCell>();
         ArrayList<MyCashCell> copyOfCashCellsWithValue = new ArrayList<MyCashCell>();
         for (MyCashCell curCell : cashCellsWithValue) {
-            copyOfCashCellsWithValue.add(new MyCashCellImpl(curCell.getCurrency(), curCell.getNominal(), curCell.getCurrentValue()));
+            copyOfCashCellsWithValue.add(new MyCashCellImpl(0, curCell.getCurrency(), curCell.getNominal(), curCell.getCurrentValue()));
         }
 
 //идем по убыванию номинала
@@ -84,7 +103,7 @@ public class MyATMImpl implements MyATM {
                     if (numberOfBanknotes > 0) {
                         curCell.setCurrentValue(curCell.getCurrentValue() - numberOfBanknotes);
                         value -= numberOfBanknotes * curCell.getIntNominal();
-                        result.add(new MyCashCellImpl(currency, nominal, numberOfBanknotes));
+                        result.add(new MyCashCellImpl(0,currency, nominal, numberOfBanknotes));
                     }
                     if (value == 0) {
                         break;
@@ -122,7 +141,7 @@ public class MyATMImpl implements MyATM {
             }
         }
 
-        MyCashCell cell = new MyCashCellImpl(currency, nominal, 0);
+        MyCashCell cell = new MyCashCellImpl(0,currency, nominal, 0);
         this.cashCellsWithValue.add(cell);
         return true;
     }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public interface MyATM {
 
+    long getId();
+
     //настройка банкомата
     void addCurrency(Currency currency);
 
