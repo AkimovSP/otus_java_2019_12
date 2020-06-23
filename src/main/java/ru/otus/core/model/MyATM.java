@@ -1,6 +1,8 @@
 package ru.otus.core.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public interface MyATM {
 
@@ -11,6 +13,9 @@ public interface MyATM {
 
     //получение баланса в рамках сети банкомата
     int getBalance(Currency currency);
+
+    //получение баланса в рамках сети банкомата
+    HashMap<Currency, Integer> getBalance();
 
     //загрузка наличных
     boolean uploadCash(Currency currency, CashNominal nominal, int value);

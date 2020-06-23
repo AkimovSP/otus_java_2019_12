@@ -18,7 +18,6 @@ public class HibernateUtils {
     Configuration configuration = new Configuration().configure(configResourceFileName);
     MetadataSources metadataSources = new MetadataSources(createServiceRegistry(configuration));
     Arrays.stream(annotatedClasses).forEach(metadataSources::addAnnotatedClass);
-
     Metadata metadata = metadataSources.getMetadataBuilder().build();
     return metadata.getSessionFactoryBuilder().build();
   }

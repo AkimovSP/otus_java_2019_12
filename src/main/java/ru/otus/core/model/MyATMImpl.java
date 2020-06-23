@@ -5,7 +5,7 @@ package ru.otus.core.model;
  */
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.*;
 
 @Entity
 @Table(name = "TATM")
@@ -22,13 +22,17 @@ public class MyATMImpl implements MyATM {
 
     @OneToMany(targetEntity = MyCashCellImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "CASHCELL_ID")
-    private ArrayList<MyCashCell> cashCellsWithValue;
+    private List<MyCashCell> cashCellsWithValue;
+
+    @Transient
+    private Set<Currency> availCurrency;
 
     public MyATMImpl() {
         this.id = 0;
         this.name = "";
         this.address = "";
         this.cashCellsWithValue = new ArrayList<MyCashCell>();
+        this.availCurrency = new HashSet<Currency>();
     }
 
     public MyATMImpl(long id, String name, String address) {
@@ -36,6 +40,7 @@ public class MyATMImpl implements MyATM {
         this.name = name;
         this.address = address;
         this.cashCellsWithValue = new ArrayList<MyCashCell>();
+        this.availCurrency = new HashSet<Currency>();
     }
 
     private ArrayList<MyCashCell> getPossiblePairs(Currency currency) {
@@ -58,6 +63,7 @@ public class MyATMImpl implements MyATM {
         ) {
             this.cashCellsWithValue.add(new MyCashCellImpl(0, cell.getCurrency(), cell.getNominal(), 0));
         }
+        availCurrency.add(currency);
     }
 
     public int getBalance(Currency currency) {
@@ -69,6 +75,22 @@ public class MyATMImpl implements MyATM {
         }
         return result;
     }
+
+    //получение баланса по всем валютам
+    public HashMap<Currency, Integer> getBalance() {
+        HashMap l = new HashMap<Currency, Integer>();
+        for (Currency cur : this.availCurrency) {
+            l.put(cur, 0);
+        }
+
+        for (MyCashCell curCell : this.cashCellsWithValue) {
+            Integer i = (Integer) l.get(curCell.getCurrency());
+            l.put(curCell.getCurrency(), i + curCell.getBalance());
+        }
+
+        return l;
+    }
+
 
     public boolean uploadCash(Currency currency, CashNominal nominal, int value) {
         System.out.println("Upload cash " + currency + " " + nominal + " " + value);
@@ -103,7 +125,7 @@ public class MyATMImpl implements MyATM {
                     if (numberOfBanknotes > 0) {
                         curCell.setCurrentValue(curCell.getCurrentValue() - numberOfBanknotes);
                         value -= numberOfBanknotes * curCell.getIntNominal();
-                        result.add(new MyCashCellImpl(0,currency, nominal, numberOfBanknotes));
+                        result.add(new MyCashCellImpl(0, currency, nominal, numberOfBanknotes));
                     }
                     if (value == 0) {
                         break;
@@ -141,7 +163,7 @@ public class MyATMImpl implements MyATM {
             }
         }
 
-        MyCashCell cell = new MyCashCellImpl(0,currency, nominal, 0);
+        MyCashCell cell = new MyCashCellImpl(0, currency, nominal, 0);
         this.cashCellsWithValue.add(cell);
         return true;
     }
@@ -171,7 +193,7 @@ public class MyATMImpl implements MyATM {
     public String getAvailableCellsList() {
         String result = "";
         for (MyCashCell cell : this.cashCellsWithValue) {
-            result = result.concat(cell.toString()+" ");
+            result = result.concat(cell.toString() + " ");
         }
         return result;
     }

@@ -1,17 +1,17 @@
 package ru.otus.core.dao;
 
-import ru.otus.core.model.MyATM;
+import ru.otus.core.model.MyATMImpl;
 import ru.otus.core.sessionmanager.SessionManager;
 
 import java.util.Optional;
 
 public interface MyATMDao {
 
-    Optional<MyATM> findById(long id);
+    Optional<MyATMImpl> findById(long id);
 
-    Optional<MyATM> findByName(String name);
+    Optional<MyATMImpl> findByName(String name);
 
-    long saveMyATM(MyATM myATM);
+    long saveMyATM(MyATMImpl myATM);
 
     SessionManager getSessionManager();
 }

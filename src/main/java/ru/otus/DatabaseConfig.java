@@ -20,9 +20,7 @@ public class DatabaseConfig implements WebMvcConfigurer {
     @Bean
     public SessionFactory sessionFactory() {
         SessionFactory sessionFactory = HibernateUtils.buildSessionFactory("hibernate.cfg.xml",
-                //new Class[]{MyCashCellImpl.class, MyATMImpl.class, Card.class});
-//                new Class[]{MyCashCellImpl.class, Card.class });
-                new Class[]{ Card.class});
+                new Class[]{  MyCashCellImpl.class, Card.class , MyATMImpl.class});
         return sessionFactory;
     }
 }

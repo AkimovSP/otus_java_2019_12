@@ -3,10 +3,8 @@ package ru.otus.core.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.otus.core.dao.CardDao;
 import ru.otus.core.dao.MyATMDao;
-import ru.otus.core.model.Card;
-import ru.otus.core.model.MyATM;
+import ru.otus.core.model.MyATMImpl;
 import ru.otus.core.sessionmanager.SessionManager;
 
 import java.util.Optional;
@@ -33,7 +31,7 @@ public class DbServiceATMImpl implements DBServiceATM {
         return this.currentATMId;
     }
     @Override
-    public long saveMyATM(MyATM myATM) {
+    public long saveMyATM(MyATMImpl myATM) {
         try (SessionManager sessionManager = myATMDao.getSessionManager()) {
             sessionManager.beginSession();
             try {
@@ -49,11 +47,11 @@ public class DbServiceATMImpl implements DBServiceATM {
     }
 
     @Override
-    public Optional<MyATM> findByATMName(String name) {
+    public Optional<MyATMImpl> findByATMName(String name) {
         try (SessionManager sessionManager = myATMDao.getSessionManager()) {
             sessionManager.beginSession();
             try {
-                Optional<MyATM> myATMOptional = myATMDao.findByName(name);
+                Optional<MyATMImpl> myATMOptional = myATMDao.findByName(name);
 
                 logger.info("ATM: {}", myATMOptional.orElse(null));
                 return myATMOptional;
@@ -66,12 +64,13 @@ public class DbServiceATMImpl implements DBServiceATM {
     }
 
     @Override
-    public Optional<MyATM> getMyATM(long id) {
+    public Optional<MyATMImpl> getMyATM(long id) {
         try (SessionManager sessionManager = myATMDao.getSessionManager()) {
             sessionManager.beginSession();
             try {
-                Optional<MyATM> myATMOptional = myATMDao.findById(id);
-
+                System.out.println("step1");
+                Optional<MyATMImpl> myATMOptional = myATMDao.findById(id);
+                System.out.println("step2");
                 logger.info("ATM: {}", myATMOptional.orElse(null));
                 return myATMOptional;
             } catch (Exception e) {

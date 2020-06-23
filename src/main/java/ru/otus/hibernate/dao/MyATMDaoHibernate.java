@@ -10,7 +10,7 @@ import ru.otus.core.dao.CardDaoException;
 import ru.otus.core.dao.MyATMDao;
 import ru.otus.core.dao.MyATMDaoException;
 import ru.otus.core.model.Card;
-import ru.otus.core.model.MyATM;
+import ru.otus.core.model.MyATMImpl;
 import ru.otus.core.sessionmanager.SessionManager;
 import ru.otus.hibernate.sessionmanager.DatabaseSessionHibernate;
 import ru.otus.hibernate.sessionmanager.SessionManagerHibernate;
@@ -31,26 +31,26 @@ public class MyATMDaoHibernate implements MyATMDao {
     }
 
     @Override
-    public Optional<MyATM> findById(long id) {
+    public Optional<MyATMImpl> findById(long id) {
         DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
         try {
-            return Optional.ofNullable(currentSession.getHibernateSession().find(MyATM.class, id));
+            return Optional.ofNullable(currentSession.getHibernateSession().find(MyATMImpl.class, id));
         } catch (Exception e) {
         }
         return Optional.empty();
     }
 
     @Override
-    public Optional<MyATM> findByName(String name) {
+    public Optional<MyATMImpl> findByName(String name) {
         DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
         try {
             Session session = currentSession.getHibernateSession();
             CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<MyATM> cr = builder.createQuery(MyATM.class);
-            Root<MyATM> root = cr.from(MyATM.class);
+            CriteriaQuery<MyATMImpl> cr = builder.createQuery(MyATMImpl.class);
+            Root<MyATMImpl> root = cr.from(MyATMImpl.class);
             cr.select(root).where(builder.equal(root.get("name"), name));
-            Query<MyATM> query = session.createQuery(cr);
-            MyATM myATM = query.getSingleResult();
+            Query<MyATMImpl> query = session.createQuery(cr);
+            MyATMImpl myATM = query.getSingleResult();
             return Optional.ofNullable(myATM);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -59,7 +59,7 @@ public class MyATMDaoHibernate implements MyATMDao {
     }
 
     @Override
-    public long saveMyATM(MyATM myATM) {
+    public long saveMyATM(MyATMImpl myATM) {
         DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
         try {
             Session hibernateSession = currentSession.getHibernateSession();

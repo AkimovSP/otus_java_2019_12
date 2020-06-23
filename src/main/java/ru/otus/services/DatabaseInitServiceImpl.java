@@ -24,7 +24,7 @@ public class DatabaseInitServiceImpl implements DatabaseInitService {
         dbServiceCard.saveCard(card1);
         dbServiceCard.saveCard(card2);
 
-        MyATM myATM = new MyATMImpl();
+        MyATMImpl myATM = new MyATMImpl();
         myATM.addCurrency(Currency.RUB);
         myATM.addCurrency(Currency.EUR);
         myATM.addCurrency(Currency.USD);
