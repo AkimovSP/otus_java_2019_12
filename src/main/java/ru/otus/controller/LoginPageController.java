@@ -31,7 +31,6 @@ public class LoginPageController {
 
     @GetMapping({"/login"})
     public String userListView(Model model) {
-        System.out.println("LOGIN!!!");
         return "login.html";
     }
 

@@ -24,15 +24,11 @@ public class MyATMImpl implements MyATM {
     @JoinColumn(name = "CASHCELL_ID")
     private List<MyCashCell> cashCellsWithValue;
 
-    @Transient
-    private Set<Currency> availCurrency;
-
     public MyATMImpl() {
         this.id = 0;
         this.name = "";
         this.address = "";
         this.cashCellsWithValue = new ArrayList<MyCashCell>();
-        this.availCurrency = new HashSet<Currency>();
     }
 
     public MyATMImpl(long id, String name, String address) {
@@ -40,7 +36,6 @@ public class MyATMImpl implements MyATM {
         this.name = name;
         this.address = address;
         this.cashCellsWithValue = new ArrayList<MyCashCell>();
-        this.availCurrency = new HashSet<Currency>();
     }
 
     private ArrayList<MyCashCell> getPossiblePairs(Currency currency) {
@@ -63,7 +58,6 @@ public class MyATMImpl implements MyATM {
         ) {
             this.cashCellsWithValue.add(new MyCashCellImpl(0, cell.getCurrency(), cell.getNominal(), 0));
         }
-        availCurrency.add(currency);
     }
 
     public int getBalance(Currency currency) {
@@ -76,10 +70,19 @@ public class MyATMImpl implements MyATM {
         return result;
     }
 
+    private Set<Currency> getAvailCurrency() {
+        Set<Currency> s = new HashSet();
+
+        for (MyCashCell curCell : this.cashCellsWithValue) {
+            s.add(curCell.getCurrency());
+        }
+        return s;
+    }
+
     //получение баланса по всем валютам
     public HashMap<Currency, Integer> getBalance() {
         HashMap l = new HashMap<Currency, Integer>();
-        for (Currency cur : this.availCurrency) {
+        for (Currency cur : this.getAvailCurrency()) {
             l.put(cur, 0);
         }
 
@@ -91,6 +94,10 @@ public class MyATMImpl implements MyATM {
         return l;
     }
 
+    public List<MyCashCell> getBalanceByCells()
+    {
+        return cashCellsWithValue;
+    }
 
     public boolean uploadCash(Currency currency, CashNominal nominal, int value) {
         System.out.println("Upload cash " + currency + " " + nominal + " " + value);
@@ -105,6 +112,8 @@ public class MyATMImpl implements MyATM {
 
     public ArrayList<MyCashCell> downloadCash(Currency currency, int value) {
         System.out.println("Download cash request " + value + " " + currency);
+        if (value <= 0)
+            return null;
 
         ArrayList<MyCashCell> result = new ArrayList<MyCashCell>();
         ArrayList<MyCashCell> copyOfCashCellsWithValue = new ArrayList<MyCashCell>();

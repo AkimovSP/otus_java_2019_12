@@ -1,0 +1,56 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Снятие наличных</title>
+    <script>
+          function doExit() {
+            fetch('getCash/exit')
+                .then(response => response.url)
+                .then(text => window.location.href = text)
+          }
+
+          function getCash() {
+            const amtTextBox = document.getElementById('amount');
+            const amount = amtTextBox.value;
+
+            fetch('getCash/run',
+              {method: 'POST', body: amount})
+            .then( () => location.reload()
+            );
+          }
+    </script>
+</head>
+
+<body>
+<b>
+    <BR>
+    <BR>
+    <BR>
+    <B>КАРТА</B>
+    <br>
+    [[${card.cardNumber}]]
+    <br>
+    <B>Валюта карты</B>
+    [[${card.currency}]]
+    <BR>
+    <B>Текущий остаток</B>
+    [[${card.balance}]]
+
+    <BR>
+    <BR>
+
+    <h4>Снятие наличных</h4>
+
+    <label>
+        Введите сумму <br/>
+        <input type="text" id="amount" value="0">
+    </label>
+    <br>
+    <button onclick="getCash()">Снять наличные</button>
+    <br>
+    [[${operResult}]]
+    <br>
+    [[${operResultDetails}]]
+    <br>
+    <button onclick="doExit()">Возврат</button>
+</body>
+</html>

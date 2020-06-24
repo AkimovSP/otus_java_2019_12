@@ -2,17 +2,6 @@
 <head>
     <title>Главное меню</title>
     <script>
-        function getUserById() {
-            const userIdTextBox = document.getElementById('userIdTextBox');
-            const userDataContainer = document.getElementById('userDataContainer');
-            const id = userIdTextBox.value;
-            fetch('users/' + id, {headers: {
-    'Content-Type': 'application/json;charset=utf-8'
-  }})
-                .then(response => response.json())
-                .then(user => userDataContainer.innerHTML = JSON.stringify(user));
-        }
-
                 function getATMBalance() {
             fetch('ATMBalance', {headers: {'Content-Type': 'text/html;charset=utf-8'
   }})
@@ -20,22 +9,36 @@
                 .then(text => ATMBalance.innerHTML = text)
         }
 
-        function createUser() {
-            const newNameTextBox = document.getElementById('newNameTextBox');
-            const newLoginTextBox = document.getElementById('newLoginTextBox');
-            const newPasswordTextBox = document.getElementById('newPassTextBox');
-            const name = newNameTextBox.value;
-            const login = newLoginTextBox.value;
-            const password = newPassTextBox.value;
-
-            fetch('users',
-                 {method: 'POST',
-                 headers: {'Content-Type': 'application/json'},
-                 body: '{"name": "'+name+'", "login": "'+login+'", "password": "'+password+'"}'
-                  })
+                function getATMBalanceByCells() {
+            fetch('ATMBalanceByCells', {headers: {'Content-Type': 'text/html;charset=utf-8'
+  }})
                 .then(response => response.text())
-                .then(text => ATMBalance.innerHTML = text)
-                .then( () => location.reload());
+                .then(text => ATMBalanceByCells.innerHTML = text)
+        }
+
+
+                function getBalance() {
+            fetch('CardBalance', {headers: {'Content-Type': 'text/html;charset=utf-8'
+  }})
+                .then(response => response.text())
+                .then(text => CardBalance.innerHTML = text)
+        }
+
+                function doExit() {
+            fetch('exit')
+             .then( () => location.reload());
+        }
+
+                function getCash() {
+            fetch('getCash')
+            .then(response => response.url)
+                .then(text => window.location.href = text)
+        }
+
+                function transfer() {
+            fetch('transfer')
+            .then(response => response.url)
+                .then(text => window.location.href = text)
         }
     </script>
 </head>
@@ -52,7 +55,6 @@
 <BR>
 <B>КАРТА</B>
 <br>
-[[${card.id}]]
 [[${card.cardNumber}]]
 <br>
 <B>Валюта карты</B>
@@ -70,11 +72,16 @@
 <br>
 <button onclick="getBalance()">Баланс карты</button>
 <br>
-<button onclick="getATMBalance()">Баланс банкомата</button>
-<pre id = "ATMBalance"></pre>
-<BR>
+<pre id = "CardBalance"></pre>
 <br>
-<button onclick="getCash()">Завершить работу</button>
+<button th:if="${card.serviceMode}" onclick="getATMBalance()">Баланс банкомата</button>
+<pre th:if="${card.serviceMode}" id = "ATMBalance"></pre>
+<BR th:if="${card.serviceMode}">
+<button th:if="${card.serviceMode}" onclick="getATMBalanceByCells()">Наличие купюр</button>
+<pre th:if="${card.serviceMode}" id = "ATMBalanceByCells"></pre>
+<BR th:if="${card.serviceMode}">
+<br>
+<button onclick="doExit()">Завершить работу</button>
 
 </body>
 </html>

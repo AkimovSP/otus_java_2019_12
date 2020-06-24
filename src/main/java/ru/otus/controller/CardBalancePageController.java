@@ -10,30 +10,21 @@ import ru.otus.core.service.DBServiceATM;
 import ru.otus.core.service.DBServiceCard;
 
 @Controller
-public class ATMBalancePageController {
-    private final DBServiceATM dbServiceATM;
+public class CardBalancePageController {
     private final DBServiceCard dbServiceCard;
 
-    public ATMBalancePageController(DBServiceATM dbServiceATM, DBServiceCard dbServiceCard) {
-        this.dbServiceATM = dbServiceATM;
+    public CardBalancePageController(DBServiceCard dbServiceCard) {
         this.dbServiceCard = dbServiceCard;
     }
 
-    @GetMapping({"/ATMBalance"})
+    @GetMapping({"/CardBalance"})
     @ResponseBody
     public String ATMBalance(Model model) {
         Card card = dbServiceCard.getCard(dbServiceCard.getLoggedCardId())
                 .orElse(null);
         if (card != null) {
-            if (card.isServiceMode()) {
-                MyATM myATM = dbServiceATM.getMyATM(dbServiceATM.getCurrentATMId())
-                        .orElse(null);
-                System.out.println("FFFFF " + myATM.getBalance());
-                //  model.addAttribute("card", card);
-                return myATM.getBalance().toString();
-            } else
-            return "not authorised";
-        }else
+            return card.getBalance() + " " + card.getCurrency();
+        } else
             return "";
     }
 }

@@ -34,6 +34,7 @@ public class MyATMDaoHibernate implements MyATMDao {
     public Optional<MyATMImpl> findById(long id) {
         DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
         try {
+            System.out.println("step22");
             return Optional.ofNullable(currentSession.getHibernateSession().find(MyATMImpl.class, id));
         } catch (Exception e) {
         }

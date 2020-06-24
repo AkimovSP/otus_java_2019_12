@@ -39,6 +39,7 @@ public class Card {
         this.pin = pin;
         this.currency = currency;
         this.serviceMode = serviceMode;
+        this.balance = balance;
     }
 
     public long getId() {

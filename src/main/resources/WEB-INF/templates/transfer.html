@@ -1,0 +1,71 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Перевод средств</title>
+    <script>
+       function doExit() {
+         fetch('transfer/exit')
+           .then(response => response.url)
+           .then(text => window.location.href = text)
+       }
+
+       function transfer() {
+         const amtTextBox = document.getElementById('amount');
+         const targetComboBox = document.getElementById('target');
+         const amount = amtTextBox.value;
+         const target = targetComboBox.value;
+
+         fetch('transfer/run',
+           {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: '{"amount":"'+amount+'","target":"'+target+'"}'
+           })
+            .then( () => location.reload()
+            );
+       }
+    </script>
+</head>
+
+<body>
+<b>
+<BR>
+<BR>
+<BR>
+<B>КАРТА</B>
+<br>
+[[${card.cardNumber}]]
+<br>
+<B>Валюта карты</B>
+[[${card.currency}]]
+<BR>
+    <B>Текущий остаток</B>
+    [[${card.balance}]]
+
+    <BR>
+<BR>
+
+<h4>Перевод средств</h4>
+
+    <label>
+        Выберите получателя <br/>
+        <p><select size="1" required id="target">
+            <option disabled>Выберите получателя</option>
+            <option value="Получатель1">Получатель1</option>
+            <option selected value="Получатель2">Получатель2</option>
+            <option value="Получатель3">Получатель3</option>
+        </select></p>
+    </label>
+    <label>
+        Введите сумму <br/>
+        <input type="text" id = "amount" value="0">
+    </label>
+    <br>
+<button onclick="transfer()">Провести перевод</button>
+<br>
+    [[${operResult}]]
+    <br>
+    [[${operResultDetails}]]
+    <br>
+<button onclick="doExit()">Возврат</button>
+</body>
+</html>

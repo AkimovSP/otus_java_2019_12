@@ -18,6 +18,13 @@ public class MyCashCellImpl implements MyCashCell {
     @Column(name = "COLVALUE")
     private int currentValue;
 
+    public MyCashCellImpl() {
+        this.id = 0;
+        this.currency = Currency.RUB;
+        this.nominal = CashNominal.NOM_10;
+        this.currentValue = 0;
+    }
+
     public MyCashCellImpl(long id, Currency currency, CashNominal nominal, int value) {
         this.id = id;
         this.currency = currency;
@@ -54,7 +61,7 @@ public class MyCashCellImpl implements MyCashCell {
     }
 
     public String toString() {
-        return currency.toString() + " " + nominal.toString(); //+ " " + currentValue;
+        return currency.toString() + " " + nominal.toString() + " " + currentValue;
     }
 }
 

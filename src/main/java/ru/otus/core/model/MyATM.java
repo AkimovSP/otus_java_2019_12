@@ -23,6 +23,9 @@ public interface MyATM {
     //выдача наличных
     ArrayList<MyCashCell> downloadCash(Currency currency, int value);
 
+    //остатки купюр
+    List<MyCashCell> getBalanceByCells();
+
     //настройка банкомата
     boolean removeCell(Currency currency, CashNominal nominal);
 
