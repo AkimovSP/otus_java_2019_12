@@ -2,44 +2,46 @@
 <head>
     <title>Главное меню</title>
     <script>
-                function getATMBalance() {
-            fetch('ATMBalance', {headers: {'Content-Type': 'text/html;charset=utf-8'
-  }})
-                .then(response => response.text())
-                .then(text => ATMBalance.innerHTML = text)
-        }
+      function getATMBalance() {
+        fetch('ATMBalance', {headers: {'Content-Type': 'text/html;charset=utf-8'}})
+          .then(response => response.text())
+          .then(text => ATMBalance.innerHTML = text)
+      }
 
-                function getATMBalanceByCells() {
-            fetch('ATMBalanceByCells', {headers: {'Content-Type': 'text/html;charset=utf-8'
-  }})
+      function getATMBalanceByCells() {
+        fetch('ATMBalanceByCells', {headers: {'Content-Type': 'text/html;charset=utf-8'}})
                 .then(response => response.text())
                 .then(text => ATMBalanceByCells.innerHTML = text)
         }
 
+      function getBalance() {
+        fetch('CardBalance', {headers: {'Content-Type': 'text/html;charset=utf-8'}})
+          .then(response => response.text())
+          .then(text => CardBalance.innerHTML = text)
+      }
 
-                function getBalance() {
-            fetch('CardBalance', {headers: {'Content-Type': 'text/html;charset=utf-8'
-  }})
-                .then(response => response.text())
-                .then(text => CardBalance.innerHTML = text)
-        }
+      function doExit() {
+        fetch('exit')
+          .then( () => location.reload());
+      }
 
-                function doExit() {
-            fetch('exit')
-             .then( () => location.reload());
-        }
+      function getCash() {
+        fetch('getCash')
+          .then(response => response.url)
+          .then(text => window.location.href = text)
+      }
 
-                function getCash() {
-            fetch('getCash')
-            .then(response => response.url)
-                .then(text => window.location.href = text)
-        }
+      function transfer() {
+        fetch('transfer')
+          .then(response => response.url)
+          .then(text => window.location.href = text)
+      }
 
-                function transfer() {
-            fetch('transfer')
-            .then(response => response.url)
-                .then(text => window.location.href = text)
-        }
+      function uploadCash() {
+        fetch('uploadCash')
+          .then(response => response.url)
+          .then(text => window.location.href = text)
+      }
     </script>
 </head>
 

@@ -5,8 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.otus.core.model.Card;
-import ru.otus.core.model.MyATM;
-import ru.otus.core.service.DBServiceATM;
 import ru.otus.core.service.DBServiceCard;
 
 @Controller

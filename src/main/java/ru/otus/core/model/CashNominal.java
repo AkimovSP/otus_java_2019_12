@@ -11,7 +11,7 @@ public enum CashNominal {
     NOM_2000(2000),
     NOM_5000(5000);
 
-    int nominal;
+    public int nominal;
 
     CashNominal(int nominal) {
         this.nominal = nominal;

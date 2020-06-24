@@ -16,7 +16,6 @@ public class MainMenuPageController {
 
     @GetMapping({"/"})
     public String userListView(Model model) {
-//        List<User> users = dbServiceUser.getAllUsers();
         Card card = dbServiceCard.getCard(dbServiceCard.getLoggedCardId())
                         .orElse(null);
         System.out.println(card);

@@ -4,13 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.core.model.Card;
-import ru.otus.core.model.MyATM;
 import ru.otus.core.model.MyATMImpl;
 import ru.otus.core.model.MyCashCell;
 import ru.otus.core.service.DBServiceATM;
 import ru.otus.core.service.DBServiceCard;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,35 +56,27 @@ public class GetCashPageController {
         operResultDetails = "";
 
         try {
-            System.out.println("AMOUNT = " + amount);
             int val = Integer.parseInt(amount);
-            System.out.println("VAL=" + val);
             if (card != null && myATM != null) {
                 if (card.getBalance() < val) {
-                    System.out.println("Недостаточно средств на карте");
                     operResult = "Недостаточно средств на карте";
                 } else {
-                    System.out.println("GET CASH " + card);
                     List<MyCashCell> l = new ArrayList<MyCashCell>();
                     l = myATM.downloadCash(card.getCurrency(), val);
                     if (l != null) {
                         card.setBalance(card.getBalance() - val);
                         dbServiceCard.saveCard(card);
                         dbServiceATM.saveMyATM(myATM);
-                        System.out.println("Выдача проведена успешно " + val + " " + card.getCurrency());
                         operResult = "Выдача проведена успешно " + val + " " + card.getCurrency();
                         operResultDetails = "Купюры " + l.toString();
                     } else {
-                        System.out.println("Невозможно выдать запрошенную сумму");
                         operResult = "Невозможно выдать запрошенную сумму";
                     }
                 }
             } else {
-                System.out.println("Ошибка выполнения операции - ошибка окружения");
                 operResult = "Ошибка выполнения операции - ошибка окружения";
             }
         } catch (Exception e) {
-            System.out.println("Ошибка выполнения операции - некорректное значение");
             operResult = "Ошибка выполнения операции - некорректное значение";
         }
         return "";

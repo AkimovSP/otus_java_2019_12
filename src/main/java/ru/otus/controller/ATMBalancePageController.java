@@ -29,10 +29,9 @@ public class ATMBalancePageController {
                 MyATM myATM = dbServiceATM.getMyATM(dbServiceATM.getCurrentATMId())
                         .orElse(null);
                 System.out.println("FFFFF " + myATM.getBalance());
-                //  model.addAttribute("card", card);
                 return myATM.getBalance().toString();
             } else
-            return "not authorised";
+            return "Нет доступа";
         }else
             return "";
     }

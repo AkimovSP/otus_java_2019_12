@@ -94,8 +94,7 @@ public class MyATMImpl implements MyATM {
         return l;
     }
 
-    public List<MyCashCell> getBalanceByCells()
-    {
+    public List<MyCashCell> getBalanceByCells() {
         return cashCellsWithValue;
     }
 
@@ -205,6 +204,18 @@ public class MyATMImpl implements MyATM {
             result = result.concat(cell.toString() + " ");
         }
         return result;
+    }
+
+    @Override
+    public List<CashNominal> getAvailableNominals(Currency currency) {
+        List<CashNominal> l = new ArrayList<CashNominal>();
+
+        for (MyCashCell cell : this.cashCellsWithValue) {
+            if (cell.getCurrency() == currency) {
+                l.add(cell.getNominal());
+            }
+        }
+        return l;
     }
 }
 

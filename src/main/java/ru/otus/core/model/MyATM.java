@@ -33,7 +33,10 @@ public interface MyATM {
     boolean addCell(Currency currency, CashNominal nominal);
 
     //уточнение возможностей конкретного банкомата
-    public String getAvailableCellsList();
+    String getAvailableCellsList();
+
+    //уточнение возможностей конкретного банкомата
+    List<CashNominal> getAvailableNominals(Currency currency);
 
     String getName();
 

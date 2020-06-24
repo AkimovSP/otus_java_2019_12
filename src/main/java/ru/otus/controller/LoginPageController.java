@@ -53,7 +53,6 @@ public class LoginPageController {
 
             return "redirect:/";
         } else {
-            System.out.println("NO!");
             dbServiceCard.setLoggedCardId(0);
             response.setStatus(SC_UNAUTHORIZED);
             return "redirect:/login";

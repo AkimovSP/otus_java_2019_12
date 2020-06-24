@@ -1,0 +1,110 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Внесение наличных</title>
+    <script>
+          function doExit() {
+            fetch('uploadCash/exit')
+                .then(response => response.url)
+                .then(text => window.location.href = text)
+          }
+
+          function uploadCash() {
+            const amtTextBox1 = document.getElementById('amount1');
+            const amount1 = amtTextBox1.value;
+            const amtTextBox2 = document.getElementById('amount2');
+            const amount2 = amtTextBox2.value;
+            const amtTextBox3 = document.getElementById('amount3');
+            const amount3 = amtTextBox3.value;
+
+            const nominalComboBox1 = document.getElementById('nominal1');
+            const nominal1 = nominalComboBox1.value;
+            const nominalComboBox2 = document.getElementById('nominal2');
+            const nominal2 = nominalComboBox2.value;
+            const nominalComboBox3 = document.getElementById('nominal3');
+            const nominal3 = nominalComboBox3.value;
+
+
+            fetch('uploadCash/run',
+              {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: '['+'{"amount":"'+amount1+'","nominal":"'+nominal1+'"},'+
+                      '{"amount":"'+amount2+'","nominal":"'+nominal2+'"},'+
+                      '{"amount":"'+amount3+'","nominal":"'+nominal3+'"}]'})
+            .then( () => location.reload()
+            );
+          }
+    </script>
+</head>
+
+<body>
+    <BR>
+    <BR>
+    <BR>
+    <B>КАРТА</B>
+    <br>
+    [[${card.cardNumber}]]
+    <br>
+    <B>Валюта карты</B>
+    [[${card.currency}]]
+    <BR>
+    <B>Текущий остаток</B>
+    [[${card.balance}]]
+
+    <BR>
+    <BR>
+
+    <h4>Внесение наличных</h4>
+
+    <label>
+        Выберите номинал&nbsp;
+        <select size="1" required id="nominal1">
+            <option th:each="cashNominal : ${cashNominals}" th:value= "${cashNominal}">[[${cashNominal}]]</option>
+        </select>
+    </label>
+    &nbsp
+
+    <label>
+        Введите количество купюр&nbsp;
+        <input type="text" id="amount1" value="0">
+    </label>
+    <br>
+
+    <label>
+        Выберите номинал&nbsp;
+        <select size="1" required id="nominal2">
+            <option th:each="cashNominal : ${cashNominals}" th:value= "${cashNominal}">[[${cashNominal}]]</option>
+        </select>
+    </label>
+    &nbsp
+
+    <label>
+        Введите количество купюр&nbsp;
+        <input type="text" id="amount2" value="0">
+    </label>
+    <br>
+
+    <label>
+        Выберите номинал&nbsp;
+        <select size="1" required id="nominal3">
+            <option th:each="cashNominal : ${cashNominals}" th:value= "${cashNominal}">[[${cashNominal}]]</option>
+        </select>
+    </label>
+    &nbsp
+
+    <label>
+        Введите количество купюр&nbsp;
+        <input type="text" id="amount3" value="0">
+    </label>
+    <br>
+    <br>
+
+    <button onclick="uploadCash()">Внести наличные</button>
+    <br>
+    [[${operResult}]]
+    <br>
+    [[${operResultDetails}]]
+    <br>
+    <button onclick="doExit()">Возврат</button>
+</body>
+</html>

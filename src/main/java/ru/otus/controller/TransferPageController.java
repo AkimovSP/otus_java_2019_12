@@ -22,8 +22,6 @@ import java.util.List;
 public class TransferPageController {
     private final DBServiceCard dbServiceCard;
 
-    private static final String PARAM_AMOUNT = "amount";
-
     private String operResult = "";
 
     public TransferPageController(DBServiceCard dbServiceCard) {
@@ -55,7 +53,6 @@ public class TransferPageController {
                 if (card.getBalance() < val) {
                     operResult = "Недостаточно средств на карте";
                 } else {
-                    System.out.println("TRANSFER  " + card);
                     card.setBalance(card.getBalance() - val);
                     dbServiceCard.saveCard(card);
                     operResult = "Перевод проведен успешно " + val + " " + card.getCurrency() + " отправлено " + reqBody.target;
